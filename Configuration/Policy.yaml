@@ -1,0 +1,16 @@
+#                                                                        #
+# Security policy for the Neos Media package                             #
+#                                                                        #
+
+privilegeTargets:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+    "SJS.Neos.MCP:Everything":
+      matcher: 'method(SJS\Neos\MCP\Controller\MCPController->.*Action())'
+
+roles:
+  "Neos.Flow:Everybody":
+    privileges:
+      - privilegeTarget: "SJS.Neos.MCP:Everything"
+        permission: GRANT
+      - privilegeTarget: "Neos.Neos:AllControllerActions"
+        permission: GRANT

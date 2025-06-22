@@ -1,0 +1,12 @@
+SJS:
+  Neos:
+    MCP:
+      server:
+        # configuration for the default server
+        mcp:
+          capabilities:
+            resources:
+              listChanged: false
+              subscribe: false
+          featureSets:
+            webPage: \SJS\Neos\MCP\FeatureSet\WebPageFeatureSet

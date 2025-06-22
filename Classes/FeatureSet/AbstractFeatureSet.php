@@ -1,0 +1,36 @@
+<?php
+declare(strict_types=1);
+
+
+namespace SJS\Neos\MCP\FeatureSet;
+
+use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Annotations as Flow;
+
+
+#[Flow\Scope("singleton")]
+abstract class AbstractFeatureSet implements FeatureSetInterface
+{
+    protected ActionRequest $actionRequest;
+
+    public function setActionRequest(ActionRequest $actionRequest)
+    {
+        $this->actionRequest = $actionRequest;
+    }
+
+    abstract public function initialize(): void;
+
+    /**
+     * @return array<\SJS\Neos\MCP\Domain\MCP\Resource>
+     */
+    public function resourcesList(?string $cursor = null): array
+    {
+        return [];
+    }
+
+    public function resourcesTemplatesList(): array
+    {
+        return [];
+    }
+
+}
