@@ -1,0 +1,11 @@
+{
+  "name": "sjs-neos-mcp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "sjsone <simon@sjs.one>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "modelcontextprotocol/inspector"
+  }
+}
