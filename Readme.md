@@ -17,4 +17,14 @@
 
 ## Development
 
+### MCP Inspector
+
 [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+
+```sh
+yarn mcp-inspector-cli
+```
+
+### Model Context Protocol
+
+[Reference](https://modelcontextprotocol.io/)
