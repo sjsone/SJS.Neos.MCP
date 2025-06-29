@@ -6,7 +6,7 @@ namespace SJS\Neos\MCP\Domain\MCP;
 
 use SJS\Neos\MCP\JsonSchema\AbstractSchema;
 
-abstract class Tool
+abstract class Tool implements \JsonSerializable
 {
     public function __construct(
         public readonly string $name,
@@ -24,4 +24,24 @@ abstract class Tool
     }
 
     abstract public function run(mixed $input);
+
+    public function jsonSerialize(): mixed
+    {
+        $data = [
+            'name' => $this->name,
+            'title' => $this->title,
+            'description' => $this->description,
+            'inputSchema' => $this->inputSchema,
+        ];
+
+        if ($this->outputSchema) {
+            $data['outputSchema'] = $this->outputSchema;
+        }
+
+        if ($this->annotations) {
+            $data['annotations'] = $this->annotations;
+        }
+
+        return $data;
+    }
 }
