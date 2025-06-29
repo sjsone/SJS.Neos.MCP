@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SJS\Neos\MCP\FeatureSet;
 
 use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\ObjectManagement\ObjectManager;
 use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Argument;
 use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Ref;
 use Neos\Flow\Annotations as Flow;
@@ -14,6 +15,9 @@ use SJS\Neos\MCP\Domain\MCP\Tool;
 #[Flow\Scope("singleton")]
 abstract class AbstractFeatureSet implements FeatureSetInterface
 {
+    #[Flow\Inject(lazy: false)]
+    protected ObjectManager $objectManager;
+
     protected ActionRequest $actionRequest;
 
     /**
@@ -21,9 +25,17 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
      */
     protected array $tools = [];
 
-    public function addTool(Tool $tool): void
+    /**
+     * @param class-string<\SJS\Neos\MCP\Domain\MCP\Tool> $tool
+     */
+    public function addTool(string $tool): void
     {
-        $this->tools[$tool->name] = $tool;
+        $toolInstance = $this->objectManager->get($tool);
+        if (!($toolInstance instanceof Tool)) {
+            throw new \Exception("Provided Tool Class '{$tool}' is not an instance of Tool");
+        }
+
+        $this->tools[$toolInstance->name] = $toolInstance;
     }
 
     public function setActionRequest(ActionRequest $actionRequest)
@@ -70,6 +82,6 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
             return null;
         }
 
-        return $this->tools[$toolName]->run($arguments);
+        return $this->tools[$toolName]->run($this->actionRequest, $arguments);
     }
 }

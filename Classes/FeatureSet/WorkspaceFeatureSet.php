@@ -14,7 +14,7 @@ class WorkspaceFeatureSet extends AbstractFeatureSet
 {
     public function initialize(): void
     {
-        $this->addTool(new CreateWorkspaceTool());
+        $this->addTool(CreateWorkspaceTool::class);
 
     }
 }

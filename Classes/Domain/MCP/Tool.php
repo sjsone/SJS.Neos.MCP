@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Domain\MCP;
 
+use Neos\Flow\Mvc\ActionRequest;
 use SJS\Neos\MCP\JsonSchema\AbstractSchema;
 
 abstract class Tool implements \JsonSerializable
@@ -23,7 +24,7 @@ abstract class Tool implements \JsonSerializable
         return $input;
     }
 
-    abstract public function run(mixed $input);
+    abstract public function run(ActionRequest $actionRequest, array $input);
 
     public function jsonSerialize(): mixed
     {
