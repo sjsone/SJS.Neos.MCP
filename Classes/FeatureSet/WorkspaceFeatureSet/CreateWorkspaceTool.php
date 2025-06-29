@@ -50,9 +50,14 @@ class CreateWorkspaceTool extends Tool
 
         $siteDetection = SiteDetectionResult::fromRequest($actionRequest->getHttpRequest());
 
+        $uniqueWorkspaceName = $this->workspaceService->getUniqueWorkspaceName(
+            $siteDetection->contentRepositoryId,
+            $workspaceName,
+        );
+
         $this->workspaceService->createSharedWorkspace(
             $siteDetection->contentRepositoryId,
-            WorkspaceName::fromString($workspaceName),
+            $uniqueWorkspaceName,
             WorkspaceTitle::fromString($workspaceTitle),
             WorkspaceDescription::fromString($workspaceDescription),
             WorkspaceName::forLive(),
@@ -64,9 +69,15 @@ class CreateWorkspaceTool extends Tool
             )
         );
 
+        $message = "Workspace created successfully.";
+        if (!$uniqueWorkspaceName->equals(WorkspaceName::fromString($workspaceName))) {
+            $message .= " But the name has been changed to '{$uniqueWorkspaceName}' because {$workspaceName} already existed.";
+        }
+
         return [
             'status' => 'success',
-            'message' => "Workspace '{$workspaceName}' created successfully",
+            'message' => $message,
+            'workspace_name' => (string) $uniqueWorkspaceName
         ];
     }
 }
