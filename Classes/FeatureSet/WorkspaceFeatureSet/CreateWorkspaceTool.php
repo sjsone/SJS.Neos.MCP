@@ -30,6 +30,7 @@ class CreateWorkspaceTool extends Tool
 
     public function __construct()
     {
+        // TODO: improve DX for create new Tools because using parent::__construct is a bit awkward
         parent::__construct(
             name: 'create_workspace',
             title: 'Create Workspace',
