@@ -17,7 +17,7 @@ class Result implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'content' => array_values($this->content)
+            'content' => $this->content
         ];
     }
 }
