@@ -15,6 +15,11 @@
 > [!WARNING]  
 > This package is under heavy development
 
+## (Missing) Features
+
+- possibility to create different server instances based on incoming Request
+- Account/User for each MCP client with authentication
+
 ## Development
 
 ### MCP Inspector
