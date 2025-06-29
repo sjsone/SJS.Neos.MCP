@@ -11,8 +11,8 @@ class NumberSchema extends AbstractSchema
     public function __construct(
         ?string $description = null,
         mixed $default = null,
-        private ?float $minimum = null,
-        private ?float $maximum = null
+        protected ?float $minimum = null,
+        protected ?float $maximum = null
     ) {
         parent::__construct($description, $default);
     }

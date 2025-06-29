@@ -11,11 +11,11 @@ class StringSchema extends AbstractSchema
     public function __construct(
         ?string $description = null,
         mixed $default = null,
-        private ?int $minLength = null,
-        private ?int $maxLength = null,
-        private ?string $pattern = null,
-        private ?string $format = null,
-        private ?array $enum = null
+        protected ?int $minLength = null,
+        protected ?int $maxLength = null,
+        protected ?string $pattern = null,
+        protected ?string $format = null,
+        protected ?array $enum = null
     ) {
         parent::__construct($description, $default);
     }

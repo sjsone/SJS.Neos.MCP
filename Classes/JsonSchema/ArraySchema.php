@@ -11,7 +11,7 @@ class ArraySchema extends AbstractSchema
     public function __construct(
         ?string $description = null,
         mixed $default = null,
-        private ?SchemaComponent $items = null
+        protected ?SchemaComponent $items = null
     ) {
         parent::__construct($description, $default);
     }

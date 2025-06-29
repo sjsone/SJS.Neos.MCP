@@ -7,21 +7,27 @@ namespace SJS\Neos\MCP\JsonSchema;
 class ObjectSchema extends AbstractSchema
 {
     protected string $type = 'object';
-    private string $schemaVersion = 'http://json-schema.org/draft-07/schema#';
+    protected string $schemaVersion = 'http://json-schema.org/draft-07/schema#';
 
     /**
      * @param string|null $title
      * @param string|null $description
-     * @param array<string, SchemaComponent> $properties
+     * @param array<string, AbstractSchema> $properties
      * @param string[] $required
      */
     public function __construct(
-        private ?string $title = null,
+        protected ?string $title = null,
         ?string $description = null,
-        private array $properties = [],
-        private array $required = []
+        protected array $properties = [],
+        protected array $required = []
     ) {
         parent::__construct($description);
+
+        foreach ($this->properties as $propertyName => $property) {
+            if ($property->requiredInObject) {
+                $properties[] = $propertyName;
+            }
+        }
     }
 
     public function jsonSerialize(): array

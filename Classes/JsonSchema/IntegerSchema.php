@@ -11,8 +11,8 @@ class IntegerSchema extends AbstractSchema
     public function __construct(
         ?string $description = null,
         mixed $default = null,
-        private ?int $minimum = null,
-        private ?int $maximum = null
+        protected ?int $minimum = null,
+        protected ?int $maximum = null
     ) {
         parent::__construct($description, $default);
     }
