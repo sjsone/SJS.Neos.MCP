@@ -9,10 +9,7 @@ use Neos\Flow\Log\Utility\LogEnvironment;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\ObjectManagement\ObjectManager;
 use Psr\Log\LoggerInterface;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest;
-use SJS\Neos\MCP\Domain\Client\Request\InitializeRequest;
-use SJS\Neos\MCP\Domain\Client\Request\NotificationsCancelledRequest;
-use SJS\Neos\MCP\Domain\Client\Request\Resources;
+use SJS\Neos\MCP\Domain\Client\Request;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\Server\Method\CompletionCompleteMethod;
 use SJS\Neos\MCP\Domain\Server\Method\InitializeMethod;
@@ -61,22 +58,22 @@ class Server
         $rpcRequest = JsonRPC\Request::fromArray($rpcRequestData);
 
         return match ($rpcRequest->method) {
-            InitializeRequest::Method => $this->handleInitialize(InitializeRequest::fromJsonRPCRequest($rpcRequest)),
-            Resources\ListRequest::Method => $this->handleResourcesList(Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
-            Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
-            CompletionCompleteRequest::Method => $this->handleCompletionComplete(CompletionCompleteRequest::fromJsonRPCRequest($rpcRequest)),
-            Resources\ReadRequest::Method => $this->handleResourcesRead(Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
-            NotificationsCancelledRequest::Method => "{}",
+            Request\InitializeRequest::Method => $this->handleInitialize(Request\InitializeRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Resources\ListRequest::Method => $this->handleResourcesList(Request\Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Request\Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Resources\ReadRequest::Method => $this->handleResourcesRead(Request\Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Notifications\CancelledRequest::Method => "{}",
             default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
         };
     }
 
-    protected function handleInitialize(InitializeRequest $initializeRequest)
+    protected function handleInitialize(Request\InitializeRequest $initializeRequest)
     {
         return InitializeMethod::handle($initializeRequest);
     }
 
-    protected function handleResourcesList(Resources\ListRequest $resourcesListRequest)
+    protected function handleResourcesList(Request\Resources\ListRequest $resourcesListRequest)
     {
         $resources = [];
 
@@ -87,7 +84,7 @@ class Server
         return ResourcesListMethod::handle($resourcesListRequest, $resources, null);
     }
 
-    protected function handleResourcesTemplatesList(Resources\Templates\ListRequest $resourcesTemplatesListRequest)
+    protected function handleResourcesTemplatesList(Request\Resources\Templates\ListRequest $resourcesTemplatesListRequest)
     {
         $templates = [];
 
@@ -98,7 +95,7 @@ class Server
         return ResourcesTemplatesListMethod::handle($resourcesTemplatesListRequest, $templates);
     }
 
-    protected function handleCompletionComplete(CompletionCompleteRequest $completionCompleteRequest)
+    protected function handleCompletionComplete(Request\Completion\CompleteRequest $completionCompleteRequest)
     {
         $completion = new Completion(
             [],
@@ -117,7 +114,7 @@ class Server
         return CompletionCompleteMethod::handle($completionCompleteRequest, $completion);
     }
 
-    protected function handleResourcesRead(Resources\ReadRequest $resourcesReadRequest): string
+    protected function handleResourcesRead(Request\Resources\ReadRequest $resourcesReadRequest): string
     {
         $resources = [];
         foreach ($this->featureSets as $featureSet) {

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest;
+namespace SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest;
 
 use Neos\Flow\Annotations as Flow;
-use SJS\Neos\MCP\Transport\JsonRPC\Request;
 
 #[Flow\Proxy(false)]
 class Ref

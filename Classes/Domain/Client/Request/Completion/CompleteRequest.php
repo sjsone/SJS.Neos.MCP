@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace SJS\Neos\MCP\Domain\Client\Request;
+namespace SJS\Neos\MCP\Domain\Client\Request\Completion;
 
 use Neos\Flow\Annotations as Flow;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
+use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Argument;
+use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Ref;
 use SJS\Neos\MCP\Transport\JsonRPC\Request;
 
 #[Flow\Proxy(false)]
-class CompletionCompleteRequest
+class CompleteRequest
 {
     public const string Method = "completion/complete";
 

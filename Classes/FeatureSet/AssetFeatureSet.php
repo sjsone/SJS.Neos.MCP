@@ -12,8 +12,8 @@ use Neos\Media\Domain\Repository\AssetCollectionRepository;
 use Neos\Media\Domain\Repository\AssetRepository;
 use Neos\Media\Domain\Repository\TagRepository;
 use Psr\Log\LoggerInterface;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
+use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Argument;
+use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Ref;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\MCP\Resource;
 
@@ -146,9 +146,6 @@ class AssetFeatureSet extends AbstractFeatureSet
         if ($resolved === null) {
             return [];
         }
-
-
-
 
         return [];
     }

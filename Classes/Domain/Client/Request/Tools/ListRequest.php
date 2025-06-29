@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SJS\Neos\MCP\Domain\Client\Request;
+namespace SJS\Neos\MCP\Domain\Client\Request\Tools;
 
 use Neos\Flow\Annotations as Flow;
 use SJS\Neos\MCP\Transport\JsonRPC\Request;
 
 #[Flow\Proxy(false)]
-class ToolsListRequest
+class ListRequest
 {
     public const string Method = "tools/list";
 

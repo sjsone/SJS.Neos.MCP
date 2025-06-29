@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace SJS\Neos\MCP\FeatureSet;
 
 use Neos\Flow\Mvc\ActionRequest;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
+use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Argument;
+use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Ref;
 use Neos\Flow\Annotations as Flow;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 
