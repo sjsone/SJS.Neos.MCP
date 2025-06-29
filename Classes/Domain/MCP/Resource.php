@@ -9,6 +9,7 @@ use Neos\Flow\Annotations as Flow;
 #[Flow\Proxy(false)]
 class Resource implements \JsonSerializable
 {
+    // TODO: create ::forListing and ::forReadText and ::forReadBinary
     public function __construct(
         public readonly string $uri,
         public readonly string $name,
