@@ -14,6 +14,8 @@ use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\Server\Method;
 use SJS\Neos\MCP\FeatureSet\AbstractFeatureSet;
 use SJS\Neos\MCP\Transport\JsonRPC;
+use SJS\Neos\MCP\Transport\JsonRPC\ErrorCode;
+use SJS\Neos\MCP\Transport\JsonRPC\Response;
 
 #[Flow\Proxy(false)]
 class Server
@@ -64,6 +66,7 @@ class Server
             Request\Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Request\Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Resources\ReadRequest::Method => $this->handleResourcesRead(Request\Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Tools\ListRequest::Method => $this->handleToolsList(Request\Tools\ListRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Tools\CallRequest::Method => $this->handleToolsCall(Request\Tools\CallRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Notifications\CancelledRequest::Method => "{}",
             default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
@@ -130,9 +133,24 @@ class Server
     {
         $tools = [];
         foreach ($this->featureSets as $featureSet) {
-
+            $tools = array_merge($tools, $featureSet->toolsList());
         }
 
         return Method\Tools\ListMethod::handle($toolsListRequest, $tools, null);
+    }
+
+    protected function handleToolsCall(Request\Tools\CallRequest $toolsCallRequest): string
+    {
+        foreach ($this->featureSets as $featureSet) {
+            $content = $featureSet->toolsCall($toolsCallRequest->name, $toolsCallRequest->arguments);
+            if ($content === null) {
+                continue;
+            }
+
+            return Method\Tools\CallMethod::handle($toolsCallRequest, $content);
+        }
+
+        $response = new Response($toolsCallRequest->id);
+        return $response->error("Unknown tool: {$toolsCallRequest->name}", ErrorCode::INVALID_PARAMS);
     }
 }

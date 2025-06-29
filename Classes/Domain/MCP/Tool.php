@@ -13,8 +13,8 @@ abstract class Tool implements \JsonSerializable
         public readonly string $title,
         public readonly string $description,
         public readonly AbstractSchema $inputSchema,
-        public readonly ?AbstractSchema $outputSchema,
-        public readonly ?array $annotations,
+        public readonly ?AbstractSchema $outputSchema = null,
+        public readonly ?array $annotations = null,
     ) {
     }
 
