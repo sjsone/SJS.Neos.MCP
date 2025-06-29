@@ -7,7 +7,7 @@
 <p align="center">
   <a href="#">📦 Packagist</a> •
   <a href="#quick-start">Quick Start</a> •
-  <a href="#Functionality">Functionality</a>
+  <a href="#missing-features">Features</a>
 </p>
 
 ## Quick Start
