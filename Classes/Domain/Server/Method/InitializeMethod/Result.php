@@ -20,7 +20,8 @@ class Result implements \JsonSerializable
                 "resources" => [
                     "listChanged" => false,
                     "subscribe" => false,
-                ]
+                ],
+                "completions" => (object) []
             ],
             "instructions" => "do stuff",
             "serverInfo" => [

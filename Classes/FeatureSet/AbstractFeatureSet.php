@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace SJS\Neos\MCP\FeatureSet;
 
 use Neos\Flow\Mvc\ActionRequest;
+use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
+use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
 use Neos\Flow\Annotations as Flow;
+use SJS\Neos\MCP\Domain\MCP\Completion;
 
 
 #[Flow\Scope("singleton")]
@@ -33,4 +36,16 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
         return [];
     }
 
+    public function completionComplete(Argument $argument, Ref $ref): ?Completion
+    {
+        return null;
+    }
+
+    /**
+     * @return array<\SJS\Neos\MCP\Domain\MCP\Resource>
+     */
+    public function resourcesRead(string $uri): array
+    {
+        return [];
+    }
 }

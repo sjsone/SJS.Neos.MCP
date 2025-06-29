@@ -13,6 +13,9 @@ use Neos\Neos\FrontendRouting\NodeUriBuilder;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\FrontendRouting\Options;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
+use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
+use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
+use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\MCP\Resource;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
 
@@ -68,19 +71,29 @@ class WebPageFeatureSet extends AbstractFeatureSet
 
         return array_values($resources);
     }
-
     public function resourcesTemplatesList(): array
     {
-        // todo: completion/complete for templates
         return [
             [
-                'uriTemplate' => "http:\/\/neos9.ddev.site\/{language}\/",
+                "uriTemplate" => "http:\/\/neos9.ddev.site\/{language}\/",
                 "name" => "Languages",
                 "title" => "🌍 Languages",
                 "description" => "Access files in the project directory",
                 "mimeType" => "text\/html"
             ]
         ];
+    }
+
+
+    public function completionComplete(Argument $argument, Ref $ref): ?Completion
+    {
+        $templates = $this->resourcesTemplatesList();
+        foreach ($templates as $template) {
+            if ($template['uriTemplate'] === $ref->uri) {
+                return new Completion(["", "de", "uk"], 3, false);
+            }
+        }
+        return null;
     }
 
     protected function isNodeAvailableForMCP(Node $node): bool
