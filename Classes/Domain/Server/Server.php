@@ -30,7 +30,12 @@ class Server
         protected ObjectManager $objectManager,
         protected LoggerInterface $logger,
     ) {
-        $featureSetsConfiguration = $configuration['featureSets'] ?? [];
+        $this->initializeFeatureSets();
+    }
+
+    protected function initializeFeatureSets()
+    {
+        $featureSetsConfiguration = $this->configuration['featureSets'] ?? [];
 
         foreach ($featureSetsConfiguration as $featureSetName => $featureSetClass) {
             $featureSet = $this->objectManager->get($featureSetClass);
@@ -38,7 +43,7 @@ class Server
             if (!($featureSet instanceof AbstractFeatureSet)) {
                 continue;
             }
-            $featureSet->setActionRequest($request);
+            $featureSet->setActionRequest($this->request);
             $featureSet->initialize();
             $this->featureSets[$featureSetName] = $featureSet;
         }
