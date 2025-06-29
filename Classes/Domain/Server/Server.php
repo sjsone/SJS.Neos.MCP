@@ -12,9 +12,7 @@ use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest;
 use SJS\Neos\MCP\Domain\Client\Request\InitializeRequest;
 use SJS\Neos\MCP\Domain\Client\Request\NotificationsCancelledRequest;
-use SJS\Neos\MCP\Domain\Client\Request\ResourcesListRequest;
-use SJS\Neos\MCP\Domain\Client\Request\ResourcesReadRequest;
-use SJS\Neos\MCP\Domain\Client\Request\ResourcesTemplatesListRequest;
+use SJS\Neos\MCP\Domain\Client\Request\Resources;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\Server\Method\CompletionCompleteMethod;
 use SJS\Neos\MCP\Domain\Server\Method\InitializeMethod;
@@ -64,10 +62,10 @@ class Server
 
         return match ($rpcRequest->method) {
             InitializeRequest::Method => $this->handleInitialize(InitializeRequest::fromJsonRPCRequest($rpcRequest)),
-            ResourcesListRequest::Method => $this->handleResourcesList(ResourcesListRequest::fromJsonRPCRequest($rpcRequest)),
-            ResourcesTemplatesListRequest::Method => $this->handleResourcesTemplatesList(ResourcesTemplatesListRequest::fromJsonRPCRequest($rpcRequest)),
+            Resources\ListRequest::Method => $this->handleResourcesList(Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
+            Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
             CompletionCompleteRequest::Method => $this->handleCompletionComplete(CompletionCompleteRequest::fromJsonRPCRequest($rpcRequest)),
-            ResourcesReadRequest::Method => $this->handleResourcesRead(ResourcesReadRequest::fromJsonRPCRequest($rpcRequest)),
+            Resources\ReadRequest::Method => $this->handleResourcesRead(Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
             NotificationsCancelledRequest::Method => "{}",
             default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
         };
@@ -78,7 +76,7 @@ class Server
         return InitializeMethod::handle($initializeRequest);
     }
 
-    protected function handleResourcesList(ResourcesListRequest $resourcesListRequest)
+    protected function handleResourcesList(Resources\ListRequest $resourcesListRequest)
     {
         $resources = [];
 
@@ -89,7 +87,7 @@ class Server
         return ResourcesListMethod::handle($resourcesListRequest, $resources, null);
     }
 
-    protected function handleResourcesTemplatesList(ResourcesTemplatesListRequest $resourcesTemplatesListRequest)
+    protected function handleResourcesTemplatesList(Resources\Templates\ListRequest $resourcesTemplatesListRequest)
     {
         $templates = [];
 
@@ -119,7 +117,7 @@ class Server
         return CompletionCompleteMethod::handle($completionCompleteRequest, $completion);
     }
 
-    protected function handleResourcesRead(ResourcesReadRequest $resourcesReadRequest): string
+    protected function handleResourcesRead(Resources\ReadRequest $resourcesReadRequest): string
     {
         $resources = [];
         foreach ($this->featureSets as $featureSet) {

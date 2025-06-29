@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace SJS\Neos\MCP\Domain\Client\Request;
+namespace SJS\Neos\MCP\Domain\Client\Request\Resources;
 
 use Neos\Flow\Annotations as Flow;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
-use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
 use SJS\Neos\MCP\Transport\JsonRPC\Request;
 
 #[Flow\Proxy(false)]
-class ResourcesReadRequest
+class ReadRequest
 {
     public const string Method = "resources/read";
 
