@@ -19,6 +19,7 @@
 
 - possibility to create different server instances based on incoming Request
 - Account/User for each MCP client with authentication
+- Usage of `Tools` and `Resource Providers` to improve DX and overall structure
 
 ## Development
 
