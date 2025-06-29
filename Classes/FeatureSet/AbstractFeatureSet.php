@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace SJS\Neos\MCP\FeatureSet;
 
@@ -9,7 +9,6 @@ use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
 use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
 use Neos\Flow\Annotations as Flow;
 use SJS\Neos\MCP\Domain\MCP\Completion;
-
 
 #[Flow\Scope("singleton")]
 abstract class AbstractFeatureSet implements FeatureSetInterface

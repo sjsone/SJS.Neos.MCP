@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Domain\MCP;
 
-
 use Neos\Flow\Annotations as Flow;
-
 
 #[Flow\Proxy(false)]
 class ResourceListing implements \JsonSerializable
@@ -20,7 +19,7 @@ class ResourceListing implements \JsonSerializable
     ) {
     }
 
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         $data = [
             "resources" => $this->resources

@@ -1,12 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Transport\JsonRPC;
 
-
 use Neos\Flow\Annotations as Flow;
-
-
 
 #[Flow\Proxy(false)]
 class Request

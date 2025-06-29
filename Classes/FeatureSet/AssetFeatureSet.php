@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\FeatureSet;
@@ -16,11 +17,9 @@ use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\MCP\Resource;
 
-
 #[Flow\Scope("singleton")]
 class AssetFeatureSet extends AbstractFeatureSet
 {
-
     #[Flow\Inject]
     protected AssetRepository $assetRepository;
 
@@ -136,6 +135,10 @@ class AssetFeatureSet extends AbstractFeatureSet
      */
     public function resourcesRead(string $uri): array
     {
+        $scheme = parse_url($uri, PHP_URL_SCHEME);
+        if ($scheme !== "resource") {
+            return [];
+        }
 
         $this->logger->info("URI: $uri");
 

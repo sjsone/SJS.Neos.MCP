@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Domain\Server\Method\ResourcesReadMethod;
 
-
 use Neos\Flow\Annotations as Flow;
 use SJS\Neos\MCP\Domain\MCP\Resource;
-
 
 #[Flow\Proxy(false)]
 class Result implements \JsonSerializable

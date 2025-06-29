@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Domain\MCP;
 
-
 use Neos\Flow\Annotations as Flow;
-
 
 #[Flow\Proxy(false)]
 class Resource implements \JsonSerializable
@@ -22,7 +21,7 @@ class Resource implements \JsonSerializable
     ) {
     }
 
-    static function createBlobResource(
+    public static function createBlobResource(
         string $uri,
         string $name,
         ?string $title = null,
@@ -63,6 +62,14 @@ class Resource implements \JsonSerializable
 
         if ($this->size) {
             $data['size'] = $this->size;
+        }
+
+        if ($this->text) {
+            $data['text'] = $this->text;
+        }
+
+        if ($this->blob) {
+            $data['blob'] = $this->blob;
         }
 
         return $data;

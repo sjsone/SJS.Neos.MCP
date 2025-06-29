@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Controller;
@@ -10,7 +11,6 @@ use SJS\Neos\MCP\Domain\Server\ServerFactory;
 
 class MCPController extends ActionController
 {
-
     #[Flow\Inject()]
     protected ServerFactory $serverFactory;
 

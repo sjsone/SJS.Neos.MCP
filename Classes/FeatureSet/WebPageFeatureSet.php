@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace SJS\Neos\MCP\FeatureSet;
 
@@ -13,27 +13,39 @@ use Neos\Neos\FrontendRouting\NodeUriBuilder;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\FrontendRouting\Options;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
+use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Argument;
 use SJS\Neos\MCP\Domain\Client\Request\CompletionCompleteRequest\Ref;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\MCP\Resource;
 use Neos\ContentRepository\Core\Projection\ContentGraph\Node;
-
+use GuzzleHttp\Psr7\Request;
 
 #[Flow\Scope("singleton")]
 class WebPageFeatureSet extends AbstractFeatureSet
 {
-
     #[Flow\Inject]
     protected ContentRepositoryRegistry $contentRepositoryRegistry;
 
     #[Flow\Inject]
     protected NodeUriBuilderFactory $nodeUriBuilderFactory;
-    private NodeUriBuilder $nodeUriBuilder;
+
+    #[Flow\Inject]
+    protected LoggerInterface $logger;
+
+    protected NodeUriBuilder $nodeUriBuilder;
+
+    protected \Psr\Http\Client\ClientInterface $client;
 
     public function initialize(): void
     {
         $this->nodeUriBuilder = $this->nodeUriBuilderFactory->forActionRequest($this->actionRequest);
+        $this->initializeHttpClient();
+    }
+
+    protected function initializeHttpClient()
+    {
+        $this->client = new \GuzzleHttp\Client();
     }
 
     /**
@@ -110,5 +122,38 @@ class WebPageFeatureSet extends AbstractFeatureSet
             $node->getProperty('metaDescription') ?? "",
             "text/html"
         );
+    }
+
+    /**
+     * @return array<\SJS\Neos\MCP\Domain\MCP\Resource>
+     */
+    public function resourcesRead(string $uri): array
+    {
+        $scheme = parse_url($uri, PHP_URL_SCHEME);
+
+        $this->logger->info("WebPageFeatureSet: resourcesRead: $scheme");
+        if ($scheme !== "http" && $scheme !== "https") {
+            return [];
+        }
+
+        $request = new Request('GET', $uri);
+        $response = $this->client->sendRequest($request);
+        $content = $response->getBody()->getContents();
+
+        $size = strlen($content);
+        $this->logger->info("Got content with size of {$size}");
+        $this->logger->info("Got content: {$content}");
+
+        return [
+            new Resource(
+                $uri,
+                "",
+                null,
+                null,
+                'text/html',
+                $size,
+                $content
+            )
+        ];
     }
 }

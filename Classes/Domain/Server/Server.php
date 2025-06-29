@@ -1,8 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Domain\Server;
-
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Log\Utility\LogEnvironment;

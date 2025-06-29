@@ -1,16 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Domain\Server\Method\InitializeMethod;
 
-
 use Neos\Flow\Annotations as Flow;
-
 
 #[Flow\Proxy(false)]
 class Result implements \JsonSerializable
 {
-
     public function jsonSerialize()
     {
 
@@ -21,7 +19,8 @@ class Result implements \JsonSerializable
                     "listChanged" => false,
                     "subscribe" => false,
                 ],
-                "completions" => (object) []
+                "completions" => (object) [],
+                "tools" => (object) [],
             ],
             "instructions" => "do stuff",
             "serverInfo" => [
