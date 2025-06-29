@@ -11,3 +11,4 @@ SJS:
           featureSets:
             webPage: \SJS\Neos\MCP\FeatureSet\WebPageFeatureSet
             asset: \SJS\Neos\MCP\FeatureSet\AssetFeatureSet
+            workspace: \SJS\Neos\MCP\FeatureSet\WorkspaceFeatureSet
