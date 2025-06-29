@@ -11,6 +11,7 @@ use Neos\Flow\ObjectManagement\ObjectManager;
 use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\Client\Request;
 use SJS\Neos\MCP\Domain\MCP\Completion;
+use SJS\Neos\MCP\Domain\Server\Method;
 use SJS\Neos\MCP\Domain\Server\Method\CompletionCompleteMethod;
 use SJS\Neos\MCP\Domain\Server\Method\InitializeMethod;
 use SJS\Neos\MCP\Domain\Server\Method\ResourcesListMethod;
@@ -61,8 +62,9 @@ class Server
             Request\InitializeRequest::Method => $this->handleInitialize(Request\InitializeRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Resources\ListRequest::Method => $this->handleResourcesList(Request\Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Request\Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Resources\ReadRequest::Method => $this->handleResourcesRead(Request\Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Tools\ListRequest::Method => $this->handleToolsList(Request\Tools\ListRequest::fromJsonRPCRequest($rpcRequest)),
+            Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Notifications\CancelledRequest::Method => "{}",
             default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
         };
@@ -122,5 +124,15 @@ class Server
         }
 
         return ResourcesReadMethod::handle($resourcesReadRequest, $resources);
+    }
+
+    protected function handleToolsList(Request\Tools\ListRequest $toolsListRequest): string
+    {
+        $tools = [];
+        foreach ($this->featureSets as $featureSet) {
+
+        }
+
+        return Method\Tools\ListMethod::handle($toolsListRequest, $tools, null);
     }
 }

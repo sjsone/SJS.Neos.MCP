@@ -13,6 +13,7 @@ class ListRequest
     public const string Method = "tools/list";
 
     public function __construct(
+        public readonly int $id,
         public readonly ?string $cursor = null,
     ) {
     }
@@ -20,6 +21,7 @@ class ListRequest
     public static function fromJsonRPCRequest(Request $request): self
     {
         return new self(
+            $request->id,
             $request->params['cursor'] ?? null
         );
     }
