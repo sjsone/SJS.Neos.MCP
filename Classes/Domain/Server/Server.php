@@ -12,11 +12,6 @@ use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\Client\Request;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\Server\Method;
-use SJS\Neos\MCP\Domain\Server\Method\CompletionCompleteMethod;
-use SJS\Neos\MCP\Domain\Server\Method\InitializeMethod;
-use SJS\Neos\MCP\Domain\Server\Method\ResourcesListMethod;
-use SJS\Neos\MCP\Domain\Server\Method\ResourcesReadMethod;
-use SJS\Neos\MCP\Domain\Server\Method\ResourcesTemplatesListMethod;
 use SJS\Neos\MCP\FeatureSet\AbstractFeatureSet;
 use SJS\Neos\MCP\Transport\JsonRPC;
 
@@ -72,7 +67,7 @@ class Server
 
     protected function handleInitialize(Request\InitializeRequest $initializeRequest)
     {
-        return InitializeMethod::handle($initializeRequest);
+        return Method\InitializeMethod::handle($initializeRequest);
     }
 
     protected function handleResourcesList(Request\Resources\ListRequest $resourcesListRequest)
@@ -83,7 +78,7 @@ class Server
             $resources = array_merge($resources, $featureSet->resourcesList($resourcesListRequest->cursor));
         }
 
-        return ResourcesListMethod::handle($resourcesListRequest, $resources, null);
+        return Method\Resources\ListMethod::handle($resourcesListRequest, $resources, null);
     }
 
     protected function handleResourcesTemplatesList(Request\Resources\Templates\ListRequest $resourcesTemplatesListRequest)
@@ -94,7 +89,7 @@ class Server
             $templates = array_merge($templates, $featureSet->resourcesTemplatesList());
         }
 
-        return ResourcesTemplatesListMethod::handle($resourcesTemplatesListRequest, $templates);
+        return Method\Resources\Templates\ListMethod::handle($resourcesTemplatesListRequest, $templates);
     }
 
     protected function handleCompletionComplete(Request\Completion\CompleteRequest $completionCompleteRequest)
@@ -113,7 +108,7 @@ class Server
             }
         }
 
-        return CompletionCompleteMethod::handle($completionCompleteRequest, $completion);
+        return Method\Completion\CompleteMethod::handle($completionCompleteRequest, $completion);
     }
 
     protected function handleResourcesRead(Request\Resources\ReadRequest $resourcesReadRequest): string
@@ -123,7 +118,7 @@ class Server
             $resources = array_merge($resources, $featureSet->resourcesRead($resourcesReadRequest->uri));
         }
 
-        return ResourcesReadMethod::handle($resourcesReadRequest, $resources);
+        return Method\Resources\ReadMethod::handle($resourcesReadRequest, $resources);
     }
 
     protected function handleToolsList(Request\Tools\ListRequest $toolsListRequest): string

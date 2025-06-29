@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SJS\Neos\MCP\Domain\Server\Method\ResourcesListMethod;
+namespace SJS\Neos\MCP\Domain\Server\Method\Resources\ListMethod;
 
 use Neos\Flow\Annotations as Flow;
 

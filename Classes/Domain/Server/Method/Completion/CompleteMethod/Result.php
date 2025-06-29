@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-namespace SJS\Neos\MCP\Domain\Server\Method\ResourcesTemplatesListMethod;
+namespace SJS\Neos\MCP\Domain\Server\Method\Completion\CompleteMethod;
 
 use Neos\Flow\Annotations as Flow;
+use SJS\Neos\MCP\Domain\MCP\Completion;
 
 #[Flow\Proxy(false)]
 class Result implements \JsonSerializable
 {
     public function __construct(
-        public readonly array $resourceTemplates,
+        public readonly Completion $completion,
     ) {
     }
 
     public function jsonSerialize()
     {
         return [
-            "resourceTemplates" => $this->resourceTemplates,
+            "completion" => $this->completion
         ];
     }
 }
