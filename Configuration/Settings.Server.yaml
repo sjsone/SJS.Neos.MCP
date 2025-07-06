@@ -9,7 +9,7 @@ SJS:
               listChanged: false
               subscribe: false
           featureSets:
-            webPage: \SJS\Neos\MCP\FeatureSet\WebPageFeatureSet
-            asset: \SJS\Neos\MCP\FeatureSet\AssetFeatureSet
+            # webPage: \SJS\Neos\MCP\FeatureSet\WebPageFeatureSet
+            # asset: \SJS\Neos\MCP\FeatureSet\AssetFeatureSet
             workspace: \SJS\Neos\MCP\FeatureSet\WorkspaceFeatureSet
             nodeType: \SJS\Neos\MCP\FeatureSet\NodeTypeFeatureSet
