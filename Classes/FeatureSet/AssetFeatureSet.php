@@ -120,7 +120,7 @@ class AssetFeatureSet extends AbstractFeatureSet
             $fileSize = intval($fileSize);
         }
 
-        yield new Resource(
+        yield Resource::createForListing(
             "resource://byId/{$asset->getIdentifier()}",
             $assetResource->getFilename(),
             $asset->getTitle(),

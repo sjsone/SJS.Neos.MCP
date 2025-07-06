@@ -9,8 +9,7 @@ use Neos\Flow\Annotations as Flow;
 #[Flow\Proxy(false)]
 class Resource implements \JsonSerializable
 {
-    // TODO: create ::forListing and ::forReadText and ::forReadBinary
-    public function __construct(
+    protected function __construct(
         public readonly string $uri,
         public readonly string $name,
         public readonly ?string $title = null,
@@ -20,6 +19,48 @@ class Resource implements \JsonSerializable
         public readonly ?string $text = null,
         public readonly ?string $blob = null,
     ) {
+    }
+
+    /**
+     * Create a Resource DTO to use for `resources/list`
+     * @return Resource
+     */
+    public static function createForListing(
+        string $uri,
+        string $name,
+        ?string $title = null,
+        ?string $description = null,
+        ?string $mimeType = null,
+        ?int $size = null
+    ): self {
+        return new self(
+            uri: $uri,
+            name: $name,
+            title: $title,
+            description: $description,
+            mimeType: $mimeType,
+            size: $size
+        );
+    }
+
+    public static function createTextResource(
+        string $uri,
+        string $name,
+        ?string $title = null,
+        ?string $description = null,
+        ?string $mimeType = null,
+        ?int $size = null,
+        string $text = null,
+    ): self {
+        return new Resource(
+            uri: $uri,
+            name: $name,
+            title: $title,
+            description: $description,
+            mimeType: $mimeType,
+            size: $size,
+            text: $text
+        );
     }
 
     public static function createBlobResource(
@@ -32,8 +73,8 @@ class Resource implements \JsonSerializable
         mixed $data = null,
     ): self {
         return new self(
-            $uri,
-            $name,
+            uri: $uri,
+            name: $name,
             title: $title,
             description: $description,
             mimeType: $mimeType,

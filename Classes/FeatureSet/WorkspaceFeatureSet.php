@@ -48,11 +48,11 @@ class WorkspaceFeatureSet extends AbstractFeatureSet
                 $workspace->workspaceName
             );
 
-            $workspaceResources[] = new Resource(
-                "workspace://{$workspace->workspaceName}",
-                (string) $workspace->workspaceName,
-                $workspaceMetadata->title->value,
-                $workspaceMetadata->description->value
+            $workspaceResources[] = Resource::createForListing(
+                uri: "workspace://{$workspace->workspaceName}",
+                name: (string) $workspace->workspaceName,
+                title: $workspaceMetadata->title->value,
+                description: $workspaceMetadata->description->value
             );
         }
 
@@ -75,11 +75,11 @@ class WorkspaceFeatureSet extends AbstractFeatureSet
         );
 
         return [
-            new Resource(
-                "workspace://{$workspace->workspaceName}",
-                (string) $workspace->workspaceName,
-                $workspaceMetadata->title->value,
-                $workspaceMetadata->description->value,
+            Resource::createTextResource(
+                uri: "workspace://{$workspace->workspaceName}",
+                name: (string) $workspace->workspaceName,
+                title: $workspaceMetadata->title->value,
+                description: $workspaceMetadata->description->value,
                 mimeType: "application/json",
                 text: json_encode([
                     "classification" => $workspaceMetadata->classification->value,

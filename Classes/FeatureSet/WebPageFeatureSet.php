@@ -115,7 +115,7 @@ class WebPageFeatureSet extends AbstractFeatureSet
 
     protected function buildResourceForListFromNode(Node $node): Resource
     {
-        return new Resource(
+        return Resource::createForListing(
             (string) $this->nodeUriBuilder->uriFor(NodeAddress::fromNode($node), Options::createForceAbsolute()),
             $node->getProperty('title') ?? $node->getProperty("uriPathSegment"),
             $node->getProperty('title') ?? "",
@@ -145,14 +145,12 @@ class WebPageFeatureSet extends AbstractFeatureSet
         $this->logger->info("Got content: {$content}");
 
         return [
-            new Resource(
-                $uri,
-                "",
-                null,
-                null,
-                'text/html',
-                $size,
-                $content
+            Resource::createTextResource(
+                uri: $uri,
+                name: "",
+                mimeType: 'text/html',
+                size: $size,
+                text: $content
             )
         ];
     }
