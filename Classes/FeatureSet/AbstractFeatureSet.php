@@ -68,6 +68,7 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
      */
     public function resourcesRead(string $uri): array
     {
+        // TODO: create resource providing with scheme registration and automatic checks etc.  
         return [];
     }
 
