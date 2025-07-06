@@ -61,6 +61,11 @@ class WorkspaceFeatureSet extends AbstractFeatureSet
 
     public function resourcesRead(string $uri): array
     {
+        $scheme = parse_url($uri, PHP_URL_SCHEME);
+        if ($scheme !== "workspace") {
+            return [];
+        }
+
         $workspaceName = parse_url($uri, PHP_URL_HOST);
 
         $siteDetection = SiteDetectionResult::fromRequest($this->actionRequest->getHttpRequest());

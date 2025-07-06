@@ -60,6 +60,11 @@ class NodeTypeFeatureSet extends AbstractFeatureSet
      */
     public function resourcesRead(string $uri): array
     {
+        $scheme = parse_url($uri, PHP_URL_SCHEME);
+        if ($scheme !== "nodetypes") {
+            return [];
+        }
+
         $potentialNodeTypeName = parse_url($uri, PHP_URL_PATH);
         if (str_starts_with($potentialNodeTypeName, "/")) {
             $potentialNodeTypeName = substr($potentialNodeTypeName, 1);
