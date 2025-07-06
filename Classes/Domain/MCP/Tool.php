@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace SJS\Neos\MCP\Domain\MCP;
 
 use Neos\Flow\Mvc\ActionRequest;
+use SJS\Neos\MCP\Domain\MCP\Tool\Annotations;
 use SJS\Neos\MCP\JsonSchema\AbstractSchema;
 
 abstract class Tool implements \JsonSerializable
 {
     public function __construct(
         public readonly string $name,
-        public readonly string $title,
         public readonly string $description,
         public readonly AbstractSchema $inputSchema,
         public readonly ?AbstractSchema $outputSchema = null,
-        public readonly ?array $annotations = null,
+        public readonly ?Annotations $annotations = null,
     ) {
     }
 
@@ -30,7 +30,6 @@ abstract class Tool implements \JsonSerializable
     {
         $data = [
             'name' => $this->name,
-            'title' => $this->title,
             'description' => $this->description,
             'inputSchema' => $this->inputSchema,
         ];

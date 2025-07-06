@@ -11,6 +11,7 @@ use Neos\Neos\Domain\Service\WorkspaceService;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
 use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\MCP\Tool;
+use SJS\Neos\MCP\Domain\MCP\Tool\Annotations;
 use SJS\Neos\MCP\JsonSchema\ObjectSchema;
 use SJS\Neos\MCP\JsonSchema\StringSchema;
 
@@ -27,11 +28,14 @@ class DeleteWorkspaceTool extends Tool
     {
         parent::__construct(
             name: 'delete_workspace',
-            title: 'Delete Workspace',
             description: 'Delete a workspace',
             inputSchema: new ObjectSchema(properties: [
                 'name' => (new StringSchema(description: "technical name of the workspace to be deleted"))->required(),
-            ])
+            ]),
+            annotations: new Annotations(
+                title: 'Delete Workspace',
+                destructiveHint: true
+            )
         );
     }
     public function run(ActionRequest $actionRequest, array $input)

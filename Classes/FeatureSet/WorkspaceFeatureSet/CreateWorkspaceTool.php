@@ -16,6 +16,7 @@ use Neos\Neos\Domain\Service\WorkspaceService;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
 use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\MCP\Tool;
+use SJS\Neos\MCP\Domain\MCP\Tool\Annotations;
 use SJS\Neos\MCP\JsonSchema\ObjectSchema;
 use SJS\Neos\MCP\JsonSchema\StringSchema;
 
@@ -33,13 +34,15 @@ class CreateWorkspaceTool extends Tool
         // TODO: improve DX for create new Tools because using parent::__construct is a bit awkward
         parent::__construct(
             name: 'create_workspace',
-            title: 'Create Workspace',
             description: 'Creates a workspace',
             inputSchema: new ObjectSchema(properties: [
                 'name' => (new StringSchema(description: "technical name of the new workspace"))->required(),
                 'title' => (new StringSchema(description: "visible title of the new workspace"))->required(),
                 'description' => (new StringSchema(description: "description of the new workspace")),
-            ])
+            ]),
+            annotations: new Annotations(
+                title: 'Create Workspace'
+            )
         );
     }
     public function run(ActionRequest $actionRequest, array $input)
