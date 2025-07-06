@@ -46,11 +46,11 @@ class Resource implements \JsonSerializable
     public static function createTextResource(
         string $uri,
         string $name,
+        string $text,
         ?string $title = null,
         ?string $description = null,
         ?string $mimeType = null,
         ?int $size = null,
-        string $text = null,
     ): self {
         return new Resource(
             uri: $uri,
