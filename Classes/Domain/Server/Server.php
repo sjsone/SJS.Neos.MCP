@@ -68,7 +68,7 @@ class Server
             Request\Tools\ListRequest::Method => $this->handleToolsList(Request\Tools\ListRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Tools\CallRequest::Method => $this->handleToolsCall(Request\Tools\CallRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Notifications\CancelledRequest::Method => "{}",
+            Request\Notifications\CancelledRequest::Method => $this->handleNotification(),
             default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
         };
     }
@@ -152,5 +152,11 @@ class Server
 
         $response = new Response($toolsCallRequest->id);
         return $response->error("Unknown tool: {$toolsCallRequest->name}", ErrorCode::INVALID_PARAMS);
+    }
+
+    protected function handleNotification(): string
+    {
+        // TODO: handle notifications
+        return "";
     }
 }
