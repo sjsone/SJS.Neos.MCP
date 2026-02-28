@@ -16,7 +16,7 @@ class Completion implements \JsonSerializable
     ) {
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'values' => $this->values,

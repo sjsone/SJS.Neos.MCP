@@ -19,7 +19,7 @@ class Result implements \JsonSerializable
     ) {
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $data = [
             'tools' => array_values($this->tools)

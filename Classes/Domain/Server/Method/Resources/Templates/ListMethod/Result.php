@@ -14,7 +14,7 @@ class Result implements \JsonSerializable
     ) {
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             "resourceTemplates" => $this->resourceTemplates,

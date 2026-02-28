@@ -83,7 +83,7 @@ class Resource implements \JsonSerializable
         );
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $data = [
             'uri' => $this->uri,
