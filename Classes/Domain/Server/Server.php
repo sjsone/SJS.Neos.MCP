@@ -60,17 +60,27 @@ class Server
 
         $rpcRequest = JsonRPC\Request::fromArray($rpcRequestData);
 
-        return match ($rpcRequest->method) {
-            Request\InitializeRequest::Method => $this->handleInitialize(Request\InitializeRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Resources\ListRequest::Method => $this->handleResourcesList(Request\Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Request\Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Resources\ReadRequest::Method => $this->handleResourcesRead(Request\Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Tools\ListRequest::Method => $this->handleToolsList(Request\Tools\ListRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Tools\CallRequest::Method => $this->handleToolsCall(Request\Tools\CallRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
-            Request\Notifications\CancelledRequest::Method => $this->handleNotification(),
-            default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
-        };
+
+        $response = "";
+
+        // TODO: handle `notifications/initialized`
+        if ($rpcRequest->method !== "notifications/initialized") {
+            $response = match ($rpcRequest->method) {
+                Request\InitializeRequest::Method => $this->handleInitialize(Request\InitializeRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Resources\ListRequest::Method => $this->handleResourcesList(Request\Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Resources\Templates\ListRequest::Method => $this->handleResourcesTemplatesList(Request\Resources\Templates\ListRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Resources\ReadRequest::Method => $this->handleResourcesRead(Request\Resources\ReadRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Tools\ListRequest::Method => $this->handleToolsList(Request\Tools\ListRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Tools\CallRequest::Method => $this->handleToolsCall(Request\Tools\CallRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Completion\CompleteRequest::Method => $this->handleCompletionComplete(Request\Completion\CompleteRequest::fromJsonRPCRequest($rpcRequest)),
+                Request\Notifications\CancelledRequest::Method => $this->handleNotification(),
+                default => throw new \Exception("Unknown request method: {$rpcRequest->method}")
+            };
+        }
+
+        $this->logger->debug("Response: {$response}", LogEnvironment::fromMethodName(__METHOD__));
+
+        return $response;
     }
 
     protected function handleInitialize(Request\InitializeRequest $initializeRequest)
