@@ -18,6 +18,8 @@ abstract class Tool implements \JsonSerializable
         return ($this->prefix !== null ? "{$this->prefix}_" : "") . $this->name;
     }
 
+    // TODO: improve DX for create new Tools because using parent::__construct is a bit awkward
+
     public function __construct(
         public readonly string $name,
         public readonly string $description,
