@@ -10,11 +10,6 @@ use Neos\ContentRepository\Core\SharedModel\Workspace\WorkspaceName;
 use Neos\ContentRepositoryRegistry\ContentRepositoryRegistry;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\ActionRequest;
-use Neos\Neos\Domain\Model\WorkspaceDescription;
-use Neos\Neos\Domain\Model\WorkspaceRole;
-use Neos\Neos\Domain\Model\WorkspaceRoleAssignment;
-use Neos\Neos\Domain\Model\WorkspaceRoleAssignments;
-use Neos\Neos\Domain\Model\WorkspaceTitle;
 use Neos\Neos\Domain\Service\WorkspaceService;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use Neos\Neos\FrontendRouting\SiteDetection\SiteDetectionResult;
@@ -22,7 +17,6 @@ use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\MCP\Tool;
 use SJS\Neos\MCP\Domain\MCP\Tool\Annotations;
 use SJS\Neos\MCP\Domain\MCP\Tool\Content;
-use SJS\Neos\MCP\JsonSchema\ArraySchema;
 use SJS\Neos\MCP\JsonSchema\ObjectSchema;
 use SJS\Neos\MCP\JsonSchema\StringSchema;
 
@@ -97,13 +91,15 @@ class ListPagesTool extends Tool
                     }
 
                     $node = $nodeAggregate->getNodeByOccupiedDimensionSpacePoint($spacePoint);
+                    $nodeAddress = NodeAddress::fromNode($node);
 
                     $resources[$hash] = [
-                        'uri' => $nodeUriBuilder->uriFor(NodeAddress::fromNode($node)),
+                        'uri' => $nodeUriBuilder->uriFor($nodeAddress),
                         'aggregateId' => $node->aggregateId,
                         'title' => $node->getProperty("title") ?? "",
                         'uriPathSegment' => $node->getProperty("uriPathSegment"),
                         'nodeName' => $node->name,
+                        'nodeAddress' => $nodeAddress
                     ];
                 }
             }
