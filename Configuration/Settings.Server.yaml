@@ -10,9 +10,5 @@ SJS:
               subscribe: false
           featureSets:
             webPage: \SJS\Neos\MCP\FeatureSet\WebPageFeatureSet
-            # asset: \SJS\Neos\MCP\FeatureSet\AssetFeatureSet
-            workspace: \SJS\Neos\MCP\FeatureSet\WorkspaceFeatureSet
             nodeType: \SJS\Neos\MCP\FeatureSet\NodeTypeFeatureSet
             content: \SJS\Neos\MCP\FeatureSet\ContentFeatureSet
-            test: \SJS\Neos\MCP\FeatureSet\TestFeatureSet
-            flow: \SJS\Neos\MCP\FeatureSet\FlowFeatureSet
