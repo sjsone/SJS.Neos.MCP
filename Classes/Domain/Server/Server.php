@@ -142,11 +142,11 @@ class Server
     protected function handleToolsCall(Request\Tools\CallRequest $toolsCallRequest): string
     {
         foreach ($this->featureSets as $featureSet) {
-            $content = $featureSet->toolsCall($toolsCallRequest->name, $toolsCallRequest->arguments);
-            if ($content === null) {
+            if (!$featureSet->hasTool($toolsCallRequest->name)) {
                 continue;
             }
 
+            $content = $featureSet->toolsCall($toolsCallRequest->name, $toolsCallRequest->arguments);
             return Method\Tools\CallMethod::handle($toolsCallRequest, $content);
         }
 

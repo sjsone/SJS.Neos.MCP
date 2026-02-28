@@ -77,10 +77,16 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
         return $this->tools;
     }
 
+    public function hasTool(string $toolName): bool
+    {
+        return \array_key_exists($toolName, $this->tools);
+    }
+
+
     public function toolsCall(string $toolName, array $arguments): mixed
     {
-        if (!array_key_exists($toolName, $this->tools)) {
-            return null;
+        if (!\array_key_exists($toolName, $this->tools)) {
+            throw new \Error("Unknown Tool: $toolName");
         }
 
         return $this->tools[$toolName]->run($this->actionRequest, $arguments);
