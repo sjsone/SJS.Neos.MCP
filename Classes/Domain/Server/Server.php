@@ -93,7 +93,7 @@ class Server
         $resources = [];
 
         foreach ($this->featureSets as $featureSet) {
-            $resources = array_merge($resources, $featureSet->resourcesList($resourcesListRequest->cursor));
+            $resources = [...$resources, ...$featureSet->resourcesList($resourcesListRequest->cursor)];
         }
 
         return Method\Resources\ListMethod::handle($resourcesListRequest, $resources, null);
@@ -104,7 +104,7 @@ class Server
         $templates = [];
 
         foreach ($this->featureSets as $featureSet) {
-            $templates = array_merge($templates, $featureSet->resourcesTemplatesList());
+            $templates = [...$templates, ...$featureSet->resourcesTemplatesList()];
         }
 
         return Method\Resources\Templates\ListMethod::handle($resourcesTemplatesListRequest, $templates);
@@ -133,7 +133,7 @@ class Server
     {
         $resources = [];
         foreach ($this->featureSets as $featureSet) {
-            $resources = array_merge($resources, $featureSet->resourcesRead($resourcesReadRequest->uri));
+            $resources = [...$resources, ...$featureSet->resourcesRead($resourcesReadRequest->uri)];
         }
 
         return Method\Resources\ReadMethod::handle($resourcesReadRequest, $resources);
@@ -143,7 +143,7 @@ class Server
     {
         $tools = [];
         foreach ($this->featureSets as $featureSet) {
-            $tools = array_merge($tools, $featureSet->toolsList());
+            $tools = [...$tools, ...$featureSet->toolsList()];
         }
 
         return Method\Tools\ListMethod::handle($toolsListRequest, $tools, null);
