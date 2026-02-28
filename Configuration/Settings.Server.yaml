@@ -13,3 +13,5 @@ SJS:
             # asset: \SJS\Neos\MCP\FeatureSet\AssetFeatureSet
             workspace: \SJS\Neos\MCP\FeatureSet\WorkspaceFeatureSet
             nodeType: \SJS\Neos\MCP\FeatureSet\NodeTypeFeatureSet
+            test: \SJS\Neos\MCP\FeatureSet\TestFeatureSet
+            flow: \SJS\Neos\MCP\FeatureSet\FlowFeatureSet
