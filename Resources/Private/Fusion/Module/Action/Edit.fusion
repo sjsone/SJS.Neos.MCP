@@ -6,7 +6,7 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Edit) < prototype(Neos.Fusion:Compone
         <div>
             <h2>Edit Agent</h2>
             <form method="post">
-                <Neos.Fusion:ActionUri @path="attributes.action" action="update" arguments={{agent: props.agent.Persistence.identifier}} />
+                <Neos.Fusion:ActionUri @path="attributes.action" action="update" arguments={{agent: props.agent}} />
                 <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
                 <div style="margin-bottom: 1em;">
                     <label for="name">Name</label><br />
