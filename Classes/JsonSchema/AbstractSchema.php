@@ -23,6 +23,11 @@ abstract class AbstractSchema implements SchemaComponent
         return $this;
     }
 
+    public function isRequired(): bool
+    {
+        return $this->requiredInObject;
+    }
+
     public function jsonSerialize(): array
     {
         $data = ['type' => $this->type];

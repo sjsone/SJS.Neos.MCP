@@ -12,6 +12,8 @@ use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Ref;
 use Neos\Flow\Annotations as Flow;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\MCP\Tool;
+use SJS\Neos\MCP\Domain\MCP\Tool\Content;
+use SJS\Neos\MCP\JsonSchema\ObjectSchema;
 
 #[Flow\Scope("singleton")]
 abstract class AbstractFeatureSet implements FeatureSetInterface
@@ -101,7 +103,33 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
             throw new \Error("Unknown Tool: $toolName");
         }
 
-        return $this->tools[$toolName]->run($this->actionRequest, $arguments);
+        $tool = $this->tools[$toolName];
+
+        try {
+            $this->validatedArgumentsForTool(
+                tool: $tool,
+                arguments: $arguments,
+            );
+            return $tool->run($this->actionRequest, $arguments);
+        } catch (\InvalidArgumentException $e) {
+            return Content::text($e->getMessage());
+        }
+    }
+
+    protected function validatedArgumentsForTool(Tool $tool, array $arguments)
+    {
+        if ($tool->inputSchema instanceof ObjectSchema) {
+            $requiredKeys = array_keys($tool->inputSchema->getRequiredProperties());
+            foreach ($requiredKeys as $requiredKey) {
+                if (!\array_key_exists($requiredKey, $arguments)) {
+                    throw new \InvalidArgumentException("Missing required argument: '$requiredKey'");
+                }
+
+                if ($arguments[$requiredKey] === null) {
+                    throw new \InvalidArgumentException("Required argument is null: '$requiredKey'");
+                }
+            }
+        }
     }
 
     protected function generateToolCallPrefix(): ?string

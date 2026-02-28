@@ -54,4 +54,12 @@ class ObjectSchema extends AbstractSchema
 
         return $data;
     }
+
+    /**
+     * @return AbstractSchema[]
+     */
+    public function getRequiredProperties(): array
+    {
+        return array_filter($this->properties, fn($s) => $s->isRequired());
+    }
 }
