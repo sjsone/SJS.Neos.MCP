@@ -26,7 +26,14 @@ class MCPController extends ActionController
 
         $server = $this->buildServerFromRequest();
 
-        return $server->handleRequest();
+        try {
+            $response = $server->handleRequest();
+        } catch (\Throwable $th) {
+            $this->logger->critical("Caught error: " . $th->getMessage());
+            $response = "";
+        }
+
+        return $response;
     }
 
     protected function buildServerFromRequest(): ?Server
