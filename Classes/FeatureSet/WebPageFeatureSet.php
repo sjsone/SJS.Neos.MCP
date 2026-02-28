@@ -9,6 +9,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Neos\FrontendRouting\NodeUriBuilder;
 use Neos\Neos\FrontendRouting\NodeUriBuilderFactory;
 use SJS\Neos\MCP\FeatureSet\WebPageFeatureSet\ListPagesTool;
+use SJS\Neos\MCP\FeatureSet\WebPageFeatureSet\UpdatePageTitleTool;
 
 #[Flow\Scope("singleton")]
 class WebPageFeatureSet extends AbstractFeatureSet
@@ -22,5 +23,6 @@ class WebPageFeatureSet extends AbstractFeatureSet
     public function initialize(): void
     {
         $this->addTool(ListPagesTool::class);
+        $this->addTool(UpdatePageTitleTool::class);
     }
 }
