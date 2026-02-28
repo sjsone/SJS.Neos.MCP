@@ -30,6 +30,9 @@ class Request
     protected static function assertRequestData(array $data, bool $withId = false)
     {
         $jsonRpc = $data['jsonrpc'] ?? null;
+        if ($jsonRpc === null) {
+            throw new \Exception("jsonrpc is missing");
+        }
         if ($jsonRpc !== "2.0") {
             throw new \Exception("jsonrpc is not 2.0");
         }
