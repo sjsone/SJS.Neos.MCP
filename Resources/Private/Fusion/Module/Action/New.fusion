@@ -1,0 +1,24 @@
+prototype(SJS.Neos.MCP:Module.Agent.Action.New) < prototype(Neos.Fusion:Component) {
+
+    renderer = afx`
+        <div>
+            <h2>Create Agent</h2>
+            <form method="post">
+                <Neos.Fusion:ActionUri @path="attributes.action" action="create" />
+                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                <div style="margin-bottom: 1em;">
+                    <label for="name">Name</label><br />
+                    <input type="text" id="name" name="moduleArguments[name]" required="required" style="width: 300px;" />
+                </div>
+                <div>
+                    <button type="submit" class="neos-button neos-button-primary">Create</button>
+                    &nbsp;
+                    <a class="neos-button">
+                        <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    `
+}

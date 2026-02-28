@@ -1,0 +1,30 @@
+prototype(SJS.Neos.MCP:Module.Agent.Action.Edit) < prototype(Neos.Fusion:Component) {
+
+    agent = ${agent}
+
+    renderer = afx`
+        <div>
+            <h2>Edit Agent</h2>
+            <form method="post">
+                <Neos.Fusion:ActionUri @path="attributes.action" action="update" arguments={{agent: props.agent.Persistence.identifier}} />
+                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                <div style="margin-bottom: 1em;">
+                    <label for="name">Name</label><br />
+                    <input type="text" id="name" name="moduleArguments[name]" value={props.agent.name} required="required" style="width: 300px;" />
+                </div>
+                <div style="margin-bottom: 1em;">
+                    <label for="token">Token</label><br />
+                    <input type="text" id="token" value={props.agent.token} readonly="readonly" style="width: 500px; font-family: monospace; font-size: 0.85em; opacity: 0.6;" />
+                </div>
+                <div>
+                    <button type="submit" class="neos-button neos-button-primary">Save</button>
+                    &nbsp;
+                    <a class="neos-button">
+                        <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    `
+}

@@ -1,0 +1,11 @@
+Neos:
+  Neos:
+    modules:
+      administration:
+        submodules:
+          agentModule:
+            label: "Agent"
+            description: "a helpful description"
+            icon: "magic"
+            controller: 'SJS\Neos\MCP\Controller\Backend\AgentModuleController'
+            privilegeTarget: "SJS.Neos.MCP:AgentModuleController.Base"

@@ -1,0 +1,6 @@
+
+SJS.Neos.MCP.Backend.AgentModuleController {
+    index = SJS.Neos.MCP:Module.Agent.Action.Index
+    new = SJS.Neos.MCP:Module.Agent.Action.New
+    edit = SJS.Neos.MCP:Module.Agent.Action.Edit
+}
