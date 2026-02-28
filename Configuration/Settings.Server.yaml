@@ -10,5 +10,4 @@ SJS:
               subscribe: false
           featureSets:
             webPage: \SJS\Neos\MCP\FeatureSet\WebPageFeatureSet
-            nodeType: \SJS\Neos\MCP\FeatureSet\NodeTypeFeatureSet
             content: \SJS\Neos\MCP\FeatureSet\ContentFeatureSet
