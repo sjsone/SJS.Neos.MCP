@@ -6,6 +6,7 @@ namespace SJS\Neos\MCP\FeatureSet;
 
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\ObjectManagement\ObjectManager;
+use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Argument;
 use SJS\Neos\MCP\Domain\Client\Request\Completion\CompleteRequest\Ref;
 use Neos\Flow\Annotations as Flow;
@@ -17,6 +18,9 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
 {
     #[Flow\Inject(lazy: false)]
     protected ObjectManager $objectManager;
+
+    #[Flow\Inject]
+    protected LoggerInterface $logger;
 
     protected ActionRequest $actionRequest;
 
@@ -34,6 +38,8 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
         if (!($toolInstance instanceof Tool)) {
             throw new \Exception("Provided Tool Class '{$tool}' is not an instance of Tool");
         }
+
+        $this->logger->info("Added Tool: " . $toolInstance->name);
 
         $this->tools[$toolInstance->name] = $toolInstance;
     }
