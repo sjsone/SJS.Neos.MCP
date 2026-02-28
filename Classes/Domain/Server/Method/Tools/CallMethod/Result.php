@@ -6,6 +6,7 @@ namespace SJS\Neos\MCP\Domain\Server\Method\Tools\CallMethod;
 
 use Neos\Flow\Annotations as Flow;
 
+// TODO: check if needed
 #[Flow\Proxy(false)]
 class Result implements \JsonSerializable
 {
