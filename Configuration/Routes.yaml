@@ -1,5 +1,5 @@
 - name: "MCP"
-  uriPattern: "sse"
+  uriPattern: "mcp"
   defaults:
     "@package": "SJS.Neos.MCP"
     "@controller": "MCP"
