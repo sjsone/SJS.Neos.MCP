@@ -1,2 +1,7 @@
 node_modules
 api/
+
+.DS_Store
+
+AGENTS.md
+CLAUDE.md
