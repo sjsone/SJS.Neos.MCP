@@ -10,6 +10,14 @@ use SJS\Neos\MCP\JsonSchema\AbstractSchema;
 
 abstract class Tool implements \JsonSerializable
 {
+    public ?string $prefix = null;
+
+    // TODO: use get hook instead of method
+    public function nameWithPrefix(): string
+    {
+        return ($this->prefix !== null ? "{$this->prefix}_" : "") . $this->name;
+    }
+
     public function __construct(
         public readonly string $name,
         public readonly string $description,
@@ -28,8 +36,9 @@ abstract class Tool implements \JsonSerializable
 
     public function jsonSerialize(): mixed
     {
+
         $data = [
-            'name' => $this->name,
+            'name' => $this->nameWithPrefix(),
             'description' => $this->description,
             'inputSchema' => $this->inputSchema,
         ];

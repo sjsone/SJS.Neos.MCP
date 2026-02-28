@@ -24,6 +24,10 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
 
     protected ActionRequest $actionRequest;
 
+    protected ?string $toolCallPrefix = null;
+
+    protected bool $useToolCallPrefix = true;
+
     /**
      * @var array<\SJS\Neos\MCP\Domain\MCP\Tool>
      */
@@ -41,7 +45,9 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
 
         $this->logger->info("Added Tool: " . $toolInstance->name);
 
-        $this->tools[$toolInstance->name] = $toolInstance;
+        $toolInstance->prefix = $this->generateToolCallPrefix();
+
+        $this->tools[$toolInstance->nameWithPrefix()] = $toolInstance;
     }
 
     public function setActionRequest(ActionRequest $actionRequest)
@@ -96,5 +102,26 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
         }
 
         return $this->tools[$toolName]->run($this->actionRequest, $arguments);
+    }
+
+    protected function generateToolCallPrefix(): ?string
+    {
+        if ($this->useToolCallPrefix === false) {
+            return null;
+        }
+
+        if ($this->toolCallPrefix === null) {
+            $fqcnParts = explode("\\", \get_class($this));
+
+            $featureSetName = str_replace("FeatureSet", "", end($fqcnParts));
+
+            $featureSetNameParts = preg_split('/(?=[A-Z])/', $featureSetName);
+            $featureSetNameParts = array_filter($featureSetNameParts, fn($p) => $p);
+            $featureSetNameParts = array_map(fn($p) => strtolower($p), $featureSetNameParts);
+
+            $this->toolCallPrefix = implode("_", $featureSetNameParts);
+        }
+
+        return $this->toolCallPrefix;
     }
 }
