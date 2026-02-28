@@ -45,8 +45,6 @@ class AssetFeatureSet extends AbstractFeatureSet
         $resources = [];
 
         foreach ($this->assetRepository->findAll() as $asset) {
-            /** @var Asset $asset */
-
             foreach ($this->createAllResourcesForAsset($asset) as $resource) {
                 $resources[] = $resource;
             }
@@ -97,8 +95,6 @@ class AssetFeatureSet extends AbstractFeatureSet
                 if ($argument->name === "tag") {
                     $values = [];
                     foreach ($this->tagRepository->findAll() as $tag) {
-                        /** @var \Neos\Media\Domain\Model\Tag $ag */
-
                         $label = $tag->getLabel();
                         if (str_contains($label, $argument->value)) {
                             $values[] = $tag->getLabel();

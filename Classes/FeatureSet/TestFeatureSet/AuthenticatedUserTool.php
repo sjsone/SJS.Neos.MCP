@@ -54,8 +54,8 @@ class AuthenticatedUserTool extends Tool
             'authenticationProviderName' => $account->getAuthenticationProviderName(),
             'roles' => $roles,
             'isActive' => $account->isActive(),
-            'creationDate' => $account->getCreationDate()?->format(\DateTimeInterface::ATOM),
-            'lastSuccessfulAuthentication' => $account->getLastSuccessfulAuthenticationDate()?->format(\DateTimeInterface::ATOM),
+            'creationDate' => $account->getCreationDate()->format(\DateTimeInterface::ATOM),
+            'lastSuccessfulAuthentication' => $account->getLastSuccessfulAuthenticationDate()->format(\DateTimeInterface::ATOM),
             'failedAuthenticationCount' => $account->getFailedAuthenticationCount(),
         ];
 
