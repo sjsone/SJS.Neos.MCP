@@ -11,6 +11,8 @@ class AnySchema extends AbstractSchema
     public function __construct(
         ?string $description = null,
         mixed $default = null,
+        /** @property Array<AbstractSchema> $options */
+        protected array $options = [],
     ) {
         parent::__construct($description, $default);
     }
@@ -19,6 +21,8 @@ class AnySchema extends AbstractSchema
     {
         $data = parent::jsonSerialize();
         unset($data["type"]);
+
+        $data["anyOf"] = $this->options;
         return $data;
     }
 }
