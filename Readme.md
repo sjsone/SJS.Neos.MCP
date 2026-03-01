@@ -10,6 +10,18 @@ Core MCP (Model Context Protocol) server implementation for Neos CMS 9.x.
 
 ## Quick Start
 
+### Neos 9
+
+Install these Feature Sets:
+
+- **Neos** `composer require sjs/neos-mcp-feature-set-neos` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-neos)
+- **ContentRepository** `composer require sjs/neos-mcp-feature-set-cr` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-cr)
+- **Resources** `composer require sjs/neos-mcp-feature-set-resources` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-resources)
+
+For Testing:
+
+- **Test** `composer require sjs/neos-mcp-feature-set-test` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-test)
+
 ## Configuration
 
 Server instances are defined in `Configuration/Settings.Server.yaml`:
