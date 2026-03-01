@@ -51,7 +51,12 @@ class Content implements \JsonSerializable
         }
 
         if ($this->structuredContent !== null) {
-            $data["structuredContent"] = $this->structuredContent;
+            $structuredContent = $this->structuredContent;
+            if (\is_array($structuredContent) && empty($structuredContent)) {
+                $structuredContent = new \stdClass();
+
+            }
+            $data["structuredContent"] = $structuredContent;
         }
 
         return $data;
