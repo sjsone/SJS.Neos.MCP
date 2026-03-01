@@ -1,11 +1,14 @@
 prototype(SJS.Neos.MCP:Module.Agent.Action.Edit) < prototype(Neos.Fusion:Component) {
 
     agent = ${agent}
+    accounts = ${accounts}
+    roles = ${roles}
+    allowedRoles = ${allowedRoles}
 
     renderer = afx`
         <div>
             <h2>Edit Agent</h2>
-            <form method="post">
+            <form id="edit-agent-form" method="post">
                 <Neos.Fusion:ActionUri @path="attributes.action" action="update" arguments={{agent: props.agent}} />
                 <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
                 <div style="margin-bottom: 1em;">
@@ -16,15 +19,19 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Edit) < prototype(Neos.Fusion:Compone
                     <label for="token">Token</label><br />
                     <input type="text" id="token" value={props.agent.token} readonly="readonly" style="width: 500px; font-family: monospace; font-size: 0.85em; opacity: 0.6;" />
                 </div>
-                <div>
-                    <button type="submit" class="neos-button neos-button-primary">Save</button>
-                    &nbsp;
-                    <a class="neos-button">
-                        <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
-                        Cancel
-                    </a>
-                </div>
+                <SJS.Neos.MCP:Module.Agent.Component.Form.Account.Selection 
+                    accounts={props.accounts}
+                    agent={props.agent}
+                />
             </form>
+        </div>
+
+        <div class="neos-footer">
+            <button type="submit" form="edit-agent-form" class="neos-button neos-button-primary">Save</button>
+            <a class="neos-button">
+                <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
+                Cancel
+            </a>
         </div>
     `
 }

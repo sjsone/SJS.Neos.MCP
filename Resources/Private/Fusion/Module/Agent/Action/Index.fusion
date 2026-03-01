@@ -1,0 +1,56 @@
+prototype(SJS.Neos.MCP:Module.Agent.Action.Index) < prototype(Neos.Fusion:Component) {
+
+    agentsByParty = ${agentsByParty}
+
+    renderer = afx`
+        <div>
+            <Neos.Fusion:Loop items={props.agentsByParty} itemName="group">
+                <div style="margin-bottom: 2em;">
+                    <h3>{group.party.name}</h3>
+                    <table class="neos-table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Created</th>
+                                <th>Account</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <Neos.Fusion:Loop items={group.agents} itemName="agent">
+                                <tr>
+                                    <td>{agent.name}</td>
+                                    <td>{Date.format(agent.createdAt, 'Y-m-d')}</td>
+                                    <td>{agent.account.accountIdentifier} <span class="neos-label">{agent.account.authenticationProviderName}</span></td>
+                                    <td class="neos-action">
+                                        <div class="neos-pull-right">
+<a class="neos-button">
+                                            <Neos.Fusion:ActionUri @path="attributes.href" action="edit" arguments={{agent: agent}} />
+                                                Edit
+                                            </a>
+                                            <form method="post" style="display: inline;">
+                                                <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{agent: agent}} />
+                                                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                                                <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete agent?')">Delete</button>
+                                            </form>
+                                        </div>
+                                        
+                                    </td>
+                                </tr>
+                            </Neos.Fusion:Loop>
+                        </tbody>
+                    </table>
+                </div>
+            </Neos.Fusion:Loop>
+        </div>
+
+        <div class="neos-footer">
+            <div style="margin-bottom: 1em;">
+                <a class="neos-button neos-button-success">
+                    <Neos.Fusion:ActionUri @path="attributes.href" action="new" />
+                    Create Agent
+                </a>
+            </div>
+        </div>
+    `
+}

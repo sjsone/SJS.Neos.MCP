@@ -1,0 +1,27 @@
+prototype(SJS.Neos.MCP:Module.Agent.Component.Form.Account.Selection) < prototype(Neos.Fusion:Component) {
+
+    /// array Of accounts
+    accounts = null
+    agent = null
+
+
+    moduleArgumentName = "account"
+    inputName = ${"moduleArguments["+this.moduleArgumentName+"]"}
+
+    renderer = afx`
+        <div style="margin-bottom: 1em;">
+            <label for="account">Account</label><br />
+            <select id="account" name={props.inputName} style="width: 300px;">
+                <option value="">— none —</option>
+                <Neos.Fusion:Loop items={props.accounts} itemName="account">
+                    <option
+                        value={account.accountIdentifier}
+                        selected={account.accountIdentifier == props.agent.account.accountIdentifier ? 'selected' : false}
+                    >
+                        {account.accountIdentifier} - {account.authenticationProviderName}
+                    </option>
+                </Neos.Fusion:Loop>
+            </select>
+        </div>
+    `
+}

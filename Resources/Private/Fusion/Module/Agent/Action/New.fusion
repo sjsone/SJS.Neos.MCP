@@ -1,24 +1,31 @@
 prototype(SJS.Neos.MCP:Module.Agent.Action.New) < prototype(Neos.Fusion:Component) {
 
+    accounts = ${accounts}
+    roles = ${roles}
+
     renderer = afx`
         <div>
             <h2>Create Agent</h2>
-            <form method="post">
+            <form id="new-agent-form" method="post">
                 <Neos.Fusion:ActionUri @path="attributes.action" action="create" />
                 <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
                 <div style="margin-bottom: 1em;">
                     <label for="name">Name</label><br />
                     <input type="text" id="name" name="moduleArguments[name]" required="required" style="width: 300px;" />
                 </div>
-                <div>
-                    <button type="submit" class="neos-button neos-button-primary">Create</button>
-                    &nbsp;
-                    <a class="neos-button">
-                        <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
-                        Cancel
-                    </a>
-                </div>
+                <SJS.Neos.MCP:Module.Agent.Component.Form.Account.Selection 
+                    accounts={props.accounts}
+                    agent={props.agent}
+                />
             </form>
+        </div>
+
+        <div class="neos-footer">
+            <button type="submit" form="new-agent-form" class="neos-button neos-button-primary">Create</button>
+            <a class="neos-button">
+                <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
+                Cancel
+            </a>
         </div>
     `
 }
