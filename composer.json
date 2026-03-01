@@ -1,7 +1,7 @@
 {
     "name": "sjs/neos-mcp",
     "type": "neos-package",
-    "description": "",
+    "description": "The base implementation for a Neos CMS MCP Server",
     "require": {
         "neos/neos": "^8.0",
         "guzzlehttp/guzzle": "^7.0"
