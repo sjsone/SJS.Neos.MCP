@@ -18,25 +18,7 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Index) < prototype(Neos.Fusion:Compon
                         </thead>
                         <tbody>
                             <Neos.Fusion:Loop items={group.agents} itemName="agent">
-                                <tr>
-                                    <td>{agent.name}</td>
-                                    <td>{Date.format(agent.createdAt, 'Y-m-d')}</td>
-                                    <td>{agent.account.accountIdentifier} <span class="neos-label">{agent.account.authenticationProviderName}</span></td>
-                                    <td class="neos-action">
-                                        <div class="neos-pull-right">
-<a class="neos-button">
-                                            <Neos.Fusion:ActionUri @path="attributes.href" action="edit" arguments={{agent: agent}} />
-                                                Edit
-                                            </a>
-                                            <form method="post" style="display: inline;">
-                                                <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{agent: agent}} />
-                                                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
-                                                <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete agent?')">Delete</button>
-                                            </form>
-                                        </div>
-                                        
-                                    </td>
-                                </tr>
+                                <SJS.Neos.MCP:Module.Agent.Action.Index.AgentRow agent={agent} />
                             </Neos.Fusion:Loop>
                         </tbody>
                     </table>
@@ -54,3 +36,43 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Index) < prototype(Neos.Fusion:Compon
         </div>
     `
 }
+
+prototype(SJS.Neos.MCP:Module.Agent.Action.Index.AgentRow) < prototype(Neos.Fusion:Component) {
+    agent = null
+
+    @private {
+        editUri = Neos.Fusion:ActionUri {
+            action = "edit" 
+            arguments = ${{agent: agent}} 
+        }
+    }
+
+    renderer = afx`
+        <tr>
+            <td>
+                <a style="color:#00b5ff;" href={private.editUri}>
+                    {props.agent.name}
+                </a>
+            </td>
+            <td>{Date.format(props.agent.createdAt, 'Y-m-d')}</td>
+            <td>{props.agent.account.accountIdentifier} <span class="neos-label">{props.agent.account.authenticationProviderName}</span></td>
+            <td class="neos-action">
+                <div class="neos-pull-right">
+                    <a class="neos-button" href={private.editUri}>
+                        Edit
+                    </a>
+                    <form method="post" style="display: inline;">
+                        <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{agent: props.agent}} />
+                        <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                        <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete agent?')">Delete</button>
+                    </form>
+                </div>
+                
+            </td>
+        </tr>
+    `    
+}
+
+
+
+
