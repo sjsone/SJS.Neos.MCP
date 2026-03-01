@@ -7,7 +7,9 @@ namespace SJS\Neos\MCP\Domain\Model;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Security\Account;
 use Neos\Party\Domain\Model\AbstractParty;
+use Neos\Flow\Security\Policy\Role;
 
 /**
  * @Flow\Entity
@@ -20,6 +22,18 @@ class Agent
      * @var AbstractParty
      */
     protected AbstractParty $party;
+
+    /**
+     * @ORM\ManyToOne
+     * @var Account
+     */
+    protected ?Account $account = null;
+
+    /**
+     * @var array of strings
+     * @ORM\Column(type="simple_array", nullable=true)
+     */
+    protected $onlyAllowedRoleIdentifiers = [];
 
     /**
      * @var string
@@ -49,6 +63,28 @@ class Agent
     public function setParty(AbstractParty $party): self
     {
         $this->party = $party;
+        return $this;
+    }
+
+    public function getAccount(): ?Account
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?Account $account): self
+    {
+        $this->account = $account;
+        return $this;
+    }
+
+    public function getOnlyAllowedRoleIdentifiers(): array
+    {
+        return $this->onlyAllowedRoleIdentifiers;
+    }
+
+    public function setOnlyAllowedRoleIdentifiers(array $onlyAllowedRoleIdentifiers): self
+    {
+        $this->onlyAllowedRoleIdentifiers = $onlyAllowedRoleIdentifiers;
         return $this;
     }
 
