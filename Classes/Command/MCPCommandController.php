@@ -11,8 +11,6 @@ class MCPCommandController extends CommandController
 {
     public function addAgentCommand(string $username): void
     {
-
-
-
+        $this->outputLine("stub");
     }
 }
