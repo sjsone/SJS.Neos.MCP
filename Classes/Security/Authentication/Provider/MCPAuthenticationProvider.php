@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SJS\Neos\MCP\Security\Authentication\Provider;
 
+use Neos\Flow\Security\Account;
 use Neos\Flow\Security\Authentication\AuthenticationProviderInterface;
 use Neos\Flow\Security\Authentication\Provider\AbstractProvider;
 use Neos\Flow\Security\Authentication\TokenInterface;
@@ -39,13 +40,27 @@ class MCPAuthenticationProvider extends AbstractProvider implements Authenticati
             return;
         }
 
-        // TODO: let user decide what account should be transferred to the Agent. This needs to happen in the Agent Backend Module
-        foreach ($agent->getParty()->getAccounts() as $partyAccount) {
-            $authenticationToken->setAccount($partyAccount);
-            break;
+        $account = $this->getAccountFromAgent($agent);
+        if ($account === null) {
+            $authenticationToken->setAuthenticationStatus(TokenInterface::WRONG_CREDENTIALS);
+            return;
         }
+
+        $authenticationToken->setAccount($account);
 
         $authenticationToken->setAuthenticationStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
     }
 
+    protected function getAccountFromAgent(Agent $agent): ?Account
+    {
+        $account = $agent->getAccount();
+        if ($account !== null) {
+            return $account;
+        }
+        foreach ($agent->getParty()->getAccounts() as $partyAccount) {
+            return $partyAccount;
+        }
+
+        return null;
+    }
 }
