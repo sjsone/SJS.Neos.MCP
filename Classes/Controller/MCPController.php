@@ -6,8 +6,10 @@ namespace SJS\Neos\MCP\Controller;
 
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Annotations as Flow;
+use SJS\Neos\MCP\Domain\MCP\Tool\Content;
 use SJS\Neos\MCP\Domain\Server\Server;
 use SJS\Neos\MCP\Domain\Server\ServerFactory;
+use SJS\Neos\MCP\Transport\JsonRPC\Response;
 
 class MCPController extends ActionController
 {
@@ -26,12 +28,7 @@ class MCPController extends ActionController
 
         $server = $this->buildServerFromRequest();
 
-        try {
-            $response = $server->handleRequest();
-        } catch (\Throwable $th) {
-            $this->logger->critical("Caught error: " . $th->getMessage());
-            $response = "";
-        }
+        $response = $server->handleRequest();
 
         return $response;
     }

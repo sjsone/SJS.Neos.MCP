@@ -53,16 +53,27 @@ class Server
 
     public function handleRequest()
     {
+        $rpcRequest = $this->getRpcRequest();
+        try {
+            return $this->matchAndHandleRpcRequest($rpcRequest);
+        } catch (\Throwable $th) {
+            return $this->handleCaughtThrowable($th, $rpcRequest);
+        }
+    }
+
+    protected function getRpcRequest(): JsonRPC\Request
+    {
         $rpcRequestData = $this->request->getArguments();
 
         $rpcRequestJson = json_encode($rpcRequestData, JSON_PRETTY_PRINT);
         $this->logger->debug("Request: {$rpcRequestJson}", LogEnvironment::fromMethodName(__METHOD__));
 
-        $rpcRequest = JsonRPC\Request::fromArray($rpcRequestData);
+        return JsonRPC\Request::fromArray($rpcRequestData);
+    }
 
-
+    protected function matchAndHandleRpcRequest(JsonRPC\Request $rpcRequest): string
+    {
         $response = "";
-
         $response = match ($rpcRequest->method) {
             Request\InitializeRequest::Method => $this->handleInitialize(Request\InitializeRequest::fromJsonRPCRequest($rpcRequest)),
             Request\Resources\ListRequest::Method => $this->handleResourcesList(Request\Resources\ListRequest::fromJsonRPCRequest($rpcRequest)),
@@ -78,6 +89,13 @@ class Server
 
         $this->logger->debug("Response: {$response}", LogEnvironment::fromMethodName(__METHOD__));
 
+        return $response;
+    }
+
+    protected function handleCaughtThrowable(\Throwable $throwable, JsonRPC\Request $rpcRequest): string
+    {
+        $this->logger->critical("Caught error: " . $throwable->getMessage());
+        $response = (new Response($rpcRequest->id))->error($throwable->getMessage(), ErrorCode::INTERNAL_ERROR);
         return $response;
     }
 
