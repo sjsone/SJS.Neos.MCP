@@ -1,11 +1,13 @@
 # SJS.Neos.MCP
 
-Core MCP (Model Context Protocol) server implementation for Neos CMS 9.x.
-
 > [!WARNING]
 > This package may work on Neos 8 but this is NOT TESTED!
 > It is also under development so things can change
-> [This is the Roadmap up to Version 1.0](./Roadmap.md)
+
+Core MCP (Model Context Protocol) server implementation for Neos CMS 9.x.
+
+> [!IMPORTANT]
+> 🚧 [This is the Roadmap up to Version 1.0](./Roadmap.md)
 
 ---
 
