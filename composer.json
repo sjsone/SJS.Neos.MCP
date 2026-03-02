@@ -4,7 +4,7 @@
     "description": "The base implementation for a Neos CMS MCP Server",
     "license": "AGPL-3.0-or-later",
     "require": {
-        "neos/neos": "^8.0",
+        "neos/neos": "^8.0 || ^9.0",
         "guzzlehttp/guzzle": "^7.0"
     },
     "autoload": {
