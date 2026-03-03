@@ -1,7 +1,0 @@
-- name: "MCP"
-  uriPattern: "mcp"
-  defaults:
-    "@package": "SJS.Neos.MCP"
-    "@controller": "MCP"
-    "@action": "mcp"
-  httpMethods: ["GET", "POST"]

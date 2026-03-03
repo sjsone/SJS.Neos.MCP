@@ -10,13 +10,13 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Account;
 use Neos\Party\Domain\Model\AbstractParty;
 use Neos\Flow\Security\Policy\Role;
+use SJS\Flow\MCP\Domain\Model\Agent;
 
 /**
  * @Flow\Entity
  */
-class Agent
+class AgentData
 {
-
     /**
      * @ORM\ManyToOne
      * @var AbstractParty
@@ -119,5 +119,19 @@ class Agent
     {
         $this->token = $token;
         return $this;
+    }
+
+    public function createAgent(): Agent
+    {
+        $account = $this->account;
+        if ($account === null) {
+            $account = $this->party->getAccounts()[0];
+        }
+
+        return Agent::create(
+            name: $this->name,
+            account: $account,
+            token: $this->token
+        );
     }
 }

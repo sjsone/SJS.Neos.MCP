@@ -4,17 +4,10 @@
 # TODO: create authProvider that creates token at runtime, copies roles from user account into new Account() but adds "no live publish role" to it as well.
 privilegeTargets:
   'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
-    "SJS.Neos.MCP:Everything":
-      matcher: 'method(SJS\Neos\MCP\Controller\MCPController->.*Action())'
-
     "SJS.Neos.MCP:AgentModuleController.Base":
       matcher: 'method(SJS\Neos\MCP\Controller\Backend\AgentModuleController->(index|new|create|edit|update|delete)Action(.*))'
 
 roles:
-  "Neos.Flow:Everybody":
-    privileges:
-      - privilegeTarget: "SJS.Neos.MCP:Everything"
-        permission: GRANT
   "Neos.Neos:AbstractEditor":
     privileges:
       - privilegeTarget: "SJS.Neos.MCP:AgentModuleController.Base"

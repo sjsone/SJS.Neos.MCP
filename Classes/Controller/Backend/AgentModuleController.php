@@ -12,8 +12,8 @@ use Neos\Neos\Domain\Repository\UserRepository;
 use Neos\Party\Domain\Model\AbstractParty;
 use Neos\Flow\Annotations as Flow;
 use Neos\Party\Domain\Repository\PartyRepository;
-use SJS\Neos\MCP\Domain\Model\Agent;
-use SJS\Neos\MCP\Domain\Repository\AgentRepository;
+use SJS\Neos\MCP\Domain\Model\AgentData;
+use SJS\Neos\MCP\Domain\Repository\AgentDataRepository;
 
 
 class AgentModuleController extends ActionController
@@ -28,7 +28,7 @@ class AgentModuleController extends ActionController
     protected PartyRepository $partyRepository;
 
     #[Flow\Inject()]
-    protected AgentRepository $agentRepository;
+    protected AgentDataRepository $agentDataRepository;
 
     #[Flow\Inject()]
     protected UserRepository $userRepository;
@@ -49,14 +49,14 @@ class AgentModuleController extends ActionController
         foreach ($this->getAuthenticatedParties() as $party) {
             $agentsByParty[] = [
                 "party" => $party,
-                "agents" => $this->agentRepository->findByParty($party),
+                "agents" => $this->agentDataRepository->findByParty($party),
             ];
         }
 
         $this->view->assign("agentsByParty", $agentsByParty);
     }
 
-    public function editAction(Agent $agent): void
+    public function editAction(AgentData $agent): void
     {
         // TODO: sanity check if agent can be edited by current user
 
@@ -80,7 +80,7 @@ class AgentModuleController extends ActionController
         // TODO: do not just use the first one but let the user decide in the newAction for what party it should be added
         $party = $this->getAuthenticatedParties()[0];
 
-        $agent = new Agent();
+        $agent = new AgentData();
         $agent->setParty($party);
         $agent->setName($name);
         $agent->setToken(bin2hex(random_bytes(32)));
@@ -95,14 +95,14 @@ class AgentModuleController extends ActionController
         }
 
         $agent->setOnlyAllowedRoleIdentifiers($onlyAllowedRoleIdentifiers);
-        $this->agentRepository->add($agent);
+        $this->agentDataRepository->add($agent);
 
         // TODO: flash message after successful creation
         $this->redirect('index');
     }
 
     public function updateAction(
-        Agent $agent,
+        AgentData $agent,
         string $name,
         ?string $account = null,
         array $onlyAllowedRoleIdentifiers = []
@@ -121,15 +121,15 @@ class AgentModuleController extends ActionController
         $agent->setAccount($selectedAccount);
         $agent->setOnlyAllowedRoleIdentifiers($onlyAllowedRoleIdentifiers);
 
-        $this->agentRepository->update($agent);
+        $this->agentDataRepository->update($agent);
 
         // TODO: flash message after successful update
         $this->redirect('index');
     }
 
-    public function deleteAction(Agent $agent): void
+    public function deleteAction(AgentData $agent): void
     {
-        $this->agentRepository->remove($agent);
+        $this->agentDataRepository->remove($agent);
 
         // TODO: flash message after successful deletion
         $this->redirect('index');
