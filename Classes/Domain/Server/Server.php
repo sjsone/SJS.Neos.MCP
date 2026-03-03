@@ -12,7 +12,7 @@ use Psr\Log\LoggerInterface;
 use SJS\Neos\MCP\Domain\Client\Request;
 use SJS\Neos\MCP\Domain\MCP\Completion;
 use SJS\Neos\MCP\Domain\Server\Method;
-use SJS\Neos\MCP\FeatureSet\AbstractFeatureSet;
+use SJS\Neos\MCP\FeatureSet\FeatureSetInterface;
 use SJS\Neos\MCP\Transport\JsonRPC;
 use SJS\Neos\MCP\Transport\JsonRPC\ErrorCode;
 use SJS\Neos\MCP\Transport\JsonRPC\Response;
@@ -21,7 +21,7 @@ use SJS\Neos\MCP\Transport\JsonRPC\Response;
 class Server
 {
     /**
-     * @var array<AbstractFeatureSet>
+     * @var array<FeatureSetInterface>
      */
     protected array $featureSets = [];
 
@@ -42,7 +42,7 @@ class Server
         foreach ($featureSetsConfiguration as $featureSetName => $featureSetClass) {
             $featureSet = $this->objectManager->get($featureSetClass);
 
-            if (!($featureSet instanceof AbstractFeatureSet)) {
+            if (!($featureSet instanceof FeatureSetInterface)) {
                 continue;
             }
             $featureSet->setActionRequest($this->request);

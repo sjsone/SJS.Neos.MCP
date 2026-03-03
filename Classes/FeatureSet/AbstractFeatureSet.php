@@ -97,7 +97,7 @@ abstract class AbstractFeatureSet implements FeatureSetInterface
     }
 
 
-    public function toolsCall(string $toolName, array $arguments): mixed
+    public function toolsCall(string $toolName, array $arguments): Content
     {
         if (!\array_key_exists($toolName, $this->tools)) {
             throw new \Error("Unknown Tool: $toolName");
