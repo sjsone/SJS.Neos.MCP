@@ -3,5 +3,5 @@
   defaults:
     "@package": "SJS.Neos.MCP"
     "@controller": "MCP"
-    "@action": "sse"
+    "@action": "mcp"
   httpMethods: ["GET", "POST"]
