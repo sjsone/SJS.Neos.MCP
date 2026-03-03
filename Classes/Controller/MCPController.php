@@ -21,8 +21,9 @@ class MCPController extends ActionController
         // 'text/event-stream',
     ];
 
-    #[Flow\SkipCsrfProtection]
-    public function sseAction()
+    /**
+     * @Flow\SkipCsrfProtection
+     */
     {
         $this->response->setHttpHeader("Content-Type", "application/json");
 

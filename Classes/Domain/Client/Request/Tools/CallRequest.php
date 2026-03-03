@@ -10,7 +10,7 @@ use SJS\Neos\MCP\Transport\JsonRPC\Request;
 #[Flow\Proxy(false)]
 class CallRequest
 {
-    public const string Method = "tools/call";
+    public const Method = "tools/call";
 
     public function __construct(
         public readonly int $id,

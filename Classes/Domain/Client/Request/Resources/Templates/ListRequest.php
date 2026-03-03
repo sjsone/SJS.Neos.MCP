@@ -10,7 +10,7 @@ use SJS\Neos\MCP\Transport\JsonRPC\Request;
 #[Flow\Proxy(false)]
 class ListRequest
 {
-    public const string Method = "resources/templates/list";
+    public const Method = "resources/templates/list";
 
     public function __construct(
         public readonly int $id

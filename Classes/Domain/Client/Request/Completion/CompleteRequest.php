@@ -12,7 +12,7 @@ use SJS\Neos\MCP\Transport\JsonRPC\Request;
 #[Flow\Proxy(false)]
 class CompleteRequest
 {
-    public const string Method = "completion/complete";
+    public const Method = "completion/complete";
 
     public function __construct(
         public readonly int $id,

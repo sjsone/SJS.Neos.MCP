@@ -10,7 +10,7 @@ use SJS\Neos\MCP\Transport\JsonRPC\Request;
 #[Flow\Proxy(false)]
 class Initialized
 {
-    public const string Method = "notifications/initialized";
+    public const Method = "notifications/initialized";
 
     public function __construct()
     {

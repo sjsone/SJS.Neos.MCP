@@ -10,7 +10,7 @@ use SJS\Neos\MCP\Transport\JsonRPC\Request;
 #[Flow\Proxy(false)]
 class CancelledRequest
 {
-    public const string Method = "notifications/cancelled";
+    public const Method = "notifications/cancelled";
 
     public function __construct()
     {
