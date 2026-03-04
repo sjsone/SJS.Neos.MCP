@@ -22,6 +22,10 @@ class AgentDataRepository extends Repository
     public function findOneByToken(string $token): ?AgentData
     {
         $query = $this->createQuery();
-        return $query->matching($query->equals("token", $token))->execute()->getFirst();
+        $result = $query->matching($query->equals("token", $token))->execute()->getFirst();
+        if ($result !== null && !($result instanceof AgentData)) {
+            throw new \Exception("Query did not return null or AgentData");
+        }
+        return $result;
     }
 }

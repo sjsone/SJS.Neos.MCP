@@ -22,6 +22,6 @@ class DatabaseAgentProvider implements AgentProviderInterface
     public function getAgentByToken(string $token): ?Agent
     {
         $agentData = $this->agentDataRepository->findOneByToken($token);
-        return $agentData->createAgent();
+        return $agentData?->createAgent();
     }
 }

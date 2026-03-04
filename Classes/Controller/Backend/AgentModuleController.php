@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SJS\Neos\MCP\Controller\Backend;
 
 use Neos\Flow\Mvc\Controller\ActionController;
+use Neos\Flow\Security\Account;
 use Neos\Flow\Security\Context;
 use Neos\Flow\Security\Policy\PolicyService;
 use Neos\Fusion\View\FusionView;
@@ -72,6 +73,12 @@ class AgentModuleController extends ActionController
         $this->view->assign('roles', $this->policyService->getRoles());
     }
 
+    /**
+     * @param string $name
+     * @param ?string $accountIdentifier
+     * @param array<string> $onlyAllowedRoleIdentifiers
+     * @return never
+     */
     public function createAction(
         string $name,
         ?string $accountIdentifier = null,
@@ -101,6 +108,13 @@ class AgentModuleController extends ActionController
         $this->redirect('index');
     }
 
+    /**
+     * @param AgentData $agent
+     * @param string $name
+     * @param ?string $account
+     * @param array<string> $onlyAllowedRoleIdentifiers
+     * @return never
+     */
     public function updateAction(
         AgentData $agent,
         string $name,
@@ -135,6 +149,9 @@ class AgentModuleController extends ActionController
         $this->redirect('index');
     }
 
+    /**
+     * @return array<Account>
+     */
     protected function getAccounts(): array
     {
         $accounts = [];
@@ -147,6 +164,9 @@ class AgentModuleController extends ActionController
         return $accounts;
     }
 
+    /**
+     * @return array<Account>
+     */
     protected function getAuthenticatedAccounts(): array
     {
         $accounts = [];

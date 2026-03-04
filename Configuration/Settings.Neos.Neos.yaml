@@ -6,6 +6,6 @@ Neos:
           agentModule:
             label: "Agent"
             description: "a helpful description"
-            icon: "magic"
+            icon: "fa-magic-wand-sparkles"
             controller: 'SJS\Neos\MCP\Controller\Backend\AgentModuleController'
             privilegeTarget: "SJS.Neos.MCP:AgentModuleController.Base"

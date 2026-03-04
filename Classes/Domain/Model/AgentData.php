@@ -30,7 +30,7 @@ class AgentData
     protected ?Account $account = null;
 
     /**
-     * @var array of strings
+     * @var array<string> of strings
      * @ORM\Column(type="simple_array", nullable=true)
      */
     protected $onlyAllowedRoleIdentifiers = [];
@@ -77,11 +77,18 @@ class AgentData
         return $this;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getOnlyAllowedRoleIdentifiers(): array
     {
         return $this->onlyAllowedRoleIdentifiers;
     }
 
+    /**
+     * @param array<string> $onlyAllowedRoleIdentifiers
+     * @return AgentData
+     */
     public function setOnlyAllowedRoleIdentifiers(array $onlyAllowedRoleIdentifiers): self
     {
         $this->onlyAllowedRoleIdentifiers = $onlyAllowedRoleIdentifiers;
@@ -126,6 +133,10 @@ class AgentData
         $account = $this->account;
         if ($account === null) {
             $account = $this->party->getAccounts()[0];
+        }
+
+        if (!($account instanceof Account)) {
+            throw new \InvalidArgumentException("Agent requires account to be of type Account");
         }
 
         return Agent::create(
