@@ -1,2 +1,2 @@
-SJS\Flow\MCP\Domain\Provider\ConnectionProviderInterface:
-  className: 'SJS\Neos\MCP\Domain\Provider\PersistentConnectionProvider'
+SJS\Flow\MCP\Domain\Identity\IdentityProviderInterface:
+  className: 'SJS\Neos\MCP\Domain\Provider\PersistentIdentityProvider'

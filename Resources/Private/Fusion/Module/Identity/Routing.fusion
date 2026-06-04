@@ -1,0 +1,6 @@
+
+SJS.Neos.MCP.Backend.IdentityModuleController {
+    index = SJS.Neos.MCP:Module.Identity.Action.Index
+    new = SJS.Neos.MCP:Module.Identity.Action.New
+    edit = SJS.Neos.MCP:Module.Identity.Action.Edit
+}

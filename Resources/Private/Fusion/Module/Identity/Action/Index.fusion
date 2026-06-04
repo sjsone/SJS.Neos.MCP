@@ -1,10 +1,10 @@
-prototype(SJS.Neos.MCP:Module.Connection.Action.Index) < prototype(Neos.Fusion:Component) {
+prototype(SJS.Neos.MCP:Module.Identity.Action.Index) < prototype(Neos.Fusion:Component) {
 
-    connectionsByParty = ${connectionsByParty}
+    identitiesByParty = ${identitiesByParty}
 
     renderer = afx`
         <div>
-            <Neos.Fusion:Loop items={props.connectionsByParty} itemName="group">
+            <Neos.Fusion:Loop items={props.identitiesByParty} itemName="group">
                 <div style="margin-bottom: 2em;">
                     <h3>{group.party.name}</h3>
                     <table class="neos-table" style="width: 100%;">
@@ -17,8 +17,8 @@ prototype(SJS.Neos.MCP:Module.Connection.Action.Index) < prototype(Neos.Fusion:C
                             </tr>
                         </thead>
                         <tbody>
-                            <Neos.Fusion:Loop items={group.connections} itemName="connection">
-                                <SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow connection={connection} />
+                            <Neos.Fusion:Loop items={group.identities} itemName="identity">
+                                <SJS.Neos.MCP:Module.Identity.Action.Index.IdentityRow identity={identity} />
                             </Neos.Fusion:Loop>
                         </tbody>
                     </table>
@@ -30,20 +30,20 @@ prototype(SJS.Neos.MCP:Module.Connection.Action.Index) < prototype(Neos.Fusion:C
             <div style="margin-bottom: 1em;">
                 <a class="neos-button neos-button-success">
                     <Neos.Fusion:ActionUri @path="attributes.href" action="new" />
-                    Create Connection
+                    Create Identity
                 </a>
             </div>
         </div>
     `
 }
 
-prototype(SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow) < prototype(Neos.Fusion:Component) {
-    connection = null
+prototype(SJS.Neos.MCP:Module.Identity.Action.Index.IdentityRow) < prototype(Neos.Fusion:Component) {
+    identity = null
 
     @private {
         editUri = Neos.Fusion:ActionUri {
             action = "edit"
-            arguments = ${{connection: connection}}
+            arguments = ${{identity: identity}}
         }
     }
 
@@ -51,20 +51,20 @@ prototype(SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow) < prototype
         <tr>
             <td>
                 <a style="color:#00b5ff;" href={private.editUri}>
-                    {props.connection.name}
+                    {props.identity.name}
                 </a>
             </td>
-            <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
-            <td>{props.connection.account.accountIdentifier} <span class="neos-label">{props.connection.account.authenticationProviderName}</span></td>
+            <td>{Date.format(props.identity.createdAt, 'Y-m-d')}</td>
+            <td>{props.identity.account.accountIdentifier} <span class="neos-label">{props.identity.account.authenticationProviderName}</span></td>
             <td class="neos-action">
                 <div class="neos-pull-right">
                     <a class="neos-button" href={private.editUri}>
                         Edit
                     </a>
                     <form method="post" style="display: inline;">
-                        <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{connection: props.connection}} />
+                        <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{identity: props.identity}} />
                         <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
-                        <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete connection?')">Delete</button>
+                        <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete identity?')">Delete</button>
                     </form>
                 </div>
 

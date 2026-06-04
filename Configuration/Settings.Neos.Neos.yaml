@@ -3,9 +3,9 @@ Neos:
     modules:
       administration:
         submodules:
-          connectionModule:
-            label: "Connections"
-            description: "MCP connection management"
+          identityModule:
+            label: "Identities"
+            description: "MCP identity management"
             icon: "fa-magic-wand-sparkles"
-            controller: 'SJS\Neos\MCP\Controller\Backend\ConnectionModuleController'
-            privilegeTarget: "SJS.Neos.MCP:ConnectionModuleController.Base"
+            controller: 'SJS\Neos\MCP\Controller\Backend\IdentityModuleController'
+            privilegeTarget: "SJS.Neos.MCP:IdentityModuleController.Base"
