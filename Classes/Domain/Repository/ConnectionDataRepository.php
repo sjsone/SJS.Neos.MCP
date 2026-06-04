@@ -7,10 +7,10 @@ namespace SJS\Neos\MCP\Domain\Repository;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\Repository;
 use Neos\Party\Domain\Model\AbstractParty;
-use SJS\Neos\MCP\Domain\Model\AgentData;
+use SJS\Neos\MCP\Domain\Model\ConnectionData;
 
 #[Flow\Scope("singleton")]
-class AgentDataRepository extends Repository
+class ConnectionDataRepository extends Repository
 {
 
     public function findByParty(AbstractParty $party): ?\Neos\Flow\Persistence\QueryResultInterface
@@ -19,12 +19,12 @@ class AgentDataRepository extends Repository
         return $query->matching($query->equals("party", $party))->execute();
     }
 
-    public function findOneByToken(string $token): ?AgentData
+    public function findOneByToken(string $token): ?ConnectionData
     {
         $query = $this->createQuery();
         $result = $query->matching($query->equals("token", $token))->execute()->getFirst();
-        if ($result !== null && !($result instanceof AgentData)) {
-            throw new \Exception("Query did not return null or AgentData");
+        if ($result !== null && !($result instanceof ConnectionData)) {
+            throw new \Exception("Query did not return null or ConnectionData");
         }
         return $result;
     }

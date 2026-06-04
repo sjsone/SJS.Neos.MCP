@@ -1,8 +1,8 @@
-prototype(SJS.Neos.MCP:Module.Agent.Component.Form.Account.Selection) < prototype(Neos.Fusion:Component) {
+prototype(SJS.Neos.MCP:Module.Connection.Component.Form.Account.Selection) < prototype(Neos.Fusion:Component) {
 
     /// array Of accounts
     accounts = null
-    agent = null
+    connection = null
 
 
     moduleArgumentName = "account"
@@ -16,7 +16,7 @@ prototype(SJS.Neos.MCP:Module.Agent.Component.Form.Account.Selection) < prototyp
                 <Neos.Fusion:Loop items={props.accounts} itemName="account">
                     <option
                         value={account.accountIdentifier}
-                        selected={account.accountIdentifier == props.agent.account.accountIdentifier ? 'selected' : false}
+                        selected={account.accountIdentifier == props.connection.account.accountIdentifier ? 'selected' : false}
                     >
                         {account.accountIdentifier} - {account.authenticationProviderName}
                     </option>

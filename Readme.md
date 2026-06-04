@@ -66,7 +66,7 @@ Multiple named server instances can coexist alongside `mcp`.
 ### MCP Inspector
 
 ```sh
-yarn mcp-inspector-cli
+yarn run mcp-inspector-cli
 ```
 
 Launches the [MCP Inspector](https://github.com/modelcontextprotocol/inspector) UI for interactive testing.

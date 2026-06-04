@@ -13,11 +13,11 @@ use Neos\Neos\Domain\Repository\UserRepository;
 use Neos\Party\Domain\Model\AbstractParty;
 use Neos\Flow\Annotations as Flow;
 use Neos\Party\Domain\Repository\PartyRepository;
-use SJS\Neos\MCP\Domain\Model\AgentData;
-use SJS\Neos\MCP\Domain\Repository\AgentDataRepository;
+use SJS\Neos\MCP\Domain\Model\ConnectionData;
+use SJS\Neos\MCP\Domain\Repository\ConnectionDataRepository;
 
 
-class AgentModuleController extends ActionController
+class ConnectionModuleController extends ActionController
 {
 
     protected $defaultViewObjectName = FusionView::class;
@@ -29,7 +29,7 @@ class AgentModuleController extends ActionController
     protected PartyRepository $partyRepository;
 
     #[Flow\Inject()]
-    protected AgentDataRepository $agentDataRepository;
+    protected ConnectionDataRepository $connectionDataRepository;
 
     #[Flow\Inject()]
     protected UserRepository $userRepository;
@@ -46,25 +46,25 @@ class AgentModuleController extends ActionController
 
     public function indexAction(): void
     {
-        $agentsByParty = [];
+        $connectionsByParty = [];
         foreach ($this->getAuthenticatedParties() as $party) {
-            $agentsByParty[] = [
+            $connectionsByParty[] = [
                 "party" => $party,
-                "agents" => $this->agentDataRepository->findByParty($party),
+                "connections" => $this->connectionDataRepository->findByParty($party),
             ];
         }
 
-        $this->view->assign("agentsByParty", $agentsByParty);
+        $this->view->assign("connectionsByParty", $connectionsByParty);
     }
 
-    public function editAction(AgentData $agent): void
+    public function editAction(ConnectionData $connection): void
     {
-        // TODO: sanity check if agent can be edited by current user
+        // TODO: sanity check if connection can be edited by current user
 
-        $this->view->assign('agent', $agent);
+        $this->view->assign('connection', $connection);
         $this->view->assign('accounts', $this->getAccounts());
         $this->view->assign('roles', $this->policyService->getRoles());
-        $this->view->assign('allowedRoles', array_fill_keys($agent->getOnlyAllowedRoleIdentifiers(), true));
+        $this->view->assign('allowedRoles', array_fill_keys($connection->getOnlyAllowedRoleIdentifiers(), true));
     }
 
     public function newAction(): void
@@ -87,41 +87,41 @@ class AgentModuleController extends ActionController
         // TODO: do not just use the first one but let the user decide in the newAction for what party it should be added
         $party = $this->getAuthenticatedParties()[0];
 
-        $agent = new AgentData();
-        $agent->setParty($party);
-        $agent->setName($name);
-        $agent->setToken(bin2hex(random_bytes(32)));
+        $connection = new ConnectionData();
+        $connection->setParty($party);
+        $connection->setName($name);
+        $connection->setToken(bin2hex(random_bytes(32)));
 
         if ($accountIdentifier !== null) {
             foreach ($this->getAuthenticatedAccounts() as $account) {
                 if ($account->getAccountIdentifier() === $accountIdentifier) {
-                    $agent->setAccount($account);
+                    $connection->setAccount($account);
                     break;
                 }
             }
         }
 
-        $agent->setOnlyAllowedRoleIdentifiers($onlyAllowedRoleIdentifiers);
-        $this->agentDataRepository->add($agent);
+        $connection->setOnlyAllowedRoleIdentifiers($onlyAllowedRoleIdentifiers);
+        $this->connectionDataRepository->add($connection);
 
         // TODO: flash message after successful creation
         $this->redirect('index');
     }
 
     /**
-     * @param AgentData $agent
+     * @param ConnectionData $connection
      * @param string $name
      * @param ?string $account
      * @param array<string> $onlyAllowedRoleIdentifiers
      * @return never
      */
     public function updateAction(
-        AgentData $agent,
+        ConnectionData $connection,
         string $name,
         ?string $account = null,
         array $onlyAllowedRoleIdentifiers = []
     ): void {
-        $agent->setName($name);
+        $connection->setName($name);
 
         $selectedAccount = null;
         if ($account !== null) {
@@ -132,18 +132,18 @@ class AgentModuleController extends ActionController
                 }
             }
         }
-        $agent->setAccount($selectedAccount);
-        $agent->setOnlyAllowedRoleIdentifiers($onlyAllowedRoleIdentifiers);
+        $connection->setAccount($selectedAccount);
+        $connection->setOnlyAllowedRoleIdentifiers($onlyAllowedRoleIdentifiers);
 
-        $this->agentDataRepository->update($agent);
+        $this->connectionDataRepository->update($connection);
 
         // TODO: flash message after successful update
         $this->redirect('index');
     }
 
-    public function deleteAction(AgentData $agent): void
+    public function deleteAction(ConnectionData $connection): void
     {
-        $this->agentDataRepository->remove($agent);
+        $this->connectionDataRepository->remove($connection);
 
         // TODO: flash message after successful deletion
         $this->redirect('index');

@@ -1,10 +1,10 @@
-prototype(SJS.Neos.MCP:Module.Agent.Action.Index) < prototype(Neos.Fusion:Component) {
+prototype(SJS.Neos.MCP:Module.Connection.Action.Index) < prototype(Neos.Fusion:Component) {
 
-    agentsByParty = ${agentsByParty}
+    connectionsByParty = ${connectionsByParty}
 
     renderer = afx`
         <div>
-            <Neos.Fusion:Loop items={props.agentsByParty} itemName="group">
+            <Neos.Fusion:Loop items={props.connectionsByParty} itemName="group">
                 <div style="margin-bottom: 2em;">
                     <h3>{group.party.name}</h3>
                     <table class="neos-table" style="width: 100%;">
@@ -17,8 +17,8 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Index) < prototype(Neos.Fusion:Compon
                             </tr>
                         </thead>
                         <tbody>
-                            <Neos.Fusion:Loop items={group.agents} itemName="agent">
-                                <SJS.Neos.MCP:Module.Agent.Action.Index.AgentRow agent={agent} />
+                            <Neos.Fusion:Loop items={group.connections} itemName="connection">
+                                <SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow connection={connection} />
                             </Neos.Fusion:Loop>
                         </tbody>
                     </table>
@@ -30,20 +30,20 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Index) < prototype(Neos.Fusion:Compon
             <div style="margin-bottom: 1em;">
                 <a class="neos-button neos-button-success">
                     <Neos.Fusion:ActionUri @path="attributes.href" action="new" />
-                    Create Agent
+                    Create Connection
                 </a>
             </div>
         </div>
     `
 }
 
-prototype(SJS.Neos.MCP:Module.Agent.Action.Index.AgentRow) < prototype(Neos.Fusion:Component) {
-    agent = null
+prototype(SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow) < prototype(Neos.Fusion:Component) {
+    connection = null
 
     @private {
         editUri = Neos.Fusion:ActionUri {
-            action = "edit" 
-            arguments = ${{agent: agent}} 
+            action = "edit"
+            arguments = ${{connection: connection}}
         }
     }
 
@@ -51,26 +51,26 @@ prototype(SJS.Neos.MCP:Module.Agent.Action.Index.AgentRow) < prototype(Neos.Fusi
         <tr>
             <td>
                 <a style="color:#00b5ff;" href={private.editUri}>
-                    {props.agent.name}
+                    {props.connection.name}
                 </a>
             </td>
-            <td>{Date.format(props.agent.createdAt, 'Y-m-d')}</td>
-            <td>{props.agent.account.accountIdentifier} <span class="neos-label">{props.agent.account.authenticationProviderName}</span></td>
+            <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
+            <td>{props.connection.account.accountIdentifier} <span class="neos-label">{props.connection.account.authenticationProviderName}</span></td>
             <td class="neos-action">
                 <div class="neos-pull-right">
                     <a class="neos-button" href={private.editUri}>
                         Edit
                     </a>
                     <form method="post" style="display: inline;">
-                        <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{agent: props.agent}} />
+                        <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{connection: props.connection}} />
                         <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
-                        <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete agent?')">Delete</button>
+                        <button class="neos-button neos-button-danger" type="submit" onclick="return confirm('Delete connection?')">Delete</button>
                     </form>
                 </div>
-                
+
             </td>
         </tr>
-    `    
+    `
 }
 
 
