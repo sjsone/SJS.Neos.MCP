@@ -1,4 +1,7 @@
 include: resource://Neos.Fusion/Private/Fusion/Root.fusion
 include: resource://Neos.Neos/Private/Fusion/Root.fusion
 
-include: **/*.fusion
+include: Component/**/*.fusion
+include: Connection/**/*.fusion
+include: Mcp/**/*.fusion
+include: UserConnection/**/*.fusion

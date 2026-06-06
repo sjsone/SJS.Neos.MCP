@@ -1,0 +1,46 @@
+prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.Fusion:Component) {
+    connection = null
+
+    @private {
+        editUri = Neos.Fusion:ActionUri {
+            action = "edit"
+            arguments = ${{connection: connection}}
+        }
+        modalId = ${'delete-connection-' + props.connection.__identity}
+    }
+
+    renderer = afx`
+        <tr>
+            <td>
+                <Neos.Fusion:Augmenter style="margin-right: 0.5em;">
+                    <SJS.Neos.MCP:Connection.SourceIcon @subject={props.connection.sourceIdentifier} />
+                </Neos.Fusion:Augmenter>
+                <a style="color:#00b5ff;" href={private.editUri}>
+                    {props.connection.name}
+                </a>
+            </td>
+            <td>
+                <code style="font-family: monospace; font-size: 0.85em;">{String.substring(props.connection.token, 0, 12)}&hellip;</code>
+                <button
+                    type="button"
+                    class="neos-button neos-button-primary"
+                    style="margin-left: 0.5em;"
+                    onclick={"navigator.clipboard.writeText('"+props.connection.token+"')"}
+                >
+                    Copy
+                </button>
+            </td>
+            <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
+            <td class="neos-action">
+                <div class="neos-pull-right">
+                    <a class="neos-button" href={private.editUri}>
+                        Edit
+                    </a>
+                    <button class="neos-button neos-button-danger" data-toggle="modal" href={'#' + private.modalId}>
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `
+}

@@ -1,0 +1,6 @@
+prototype(SJS.Neos.MCP:Module.Mcp.Action.Index) < prototype(Neos.Fusion:Component) {
+
+    renderer = afx`
+    
+    `
+}

@@ -6,14 +6,16 @@ namespace SJS\Neos\MCP\Controller\Backend;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
-use Neos\Fusion\View\FusionView;
 use Neos\Neos\Domain\Service\UserService;
 use Neos\Party\Domain\Repository\PartyRepository;
+use Neos\Fusion\View\FusionView;
 use SJS\Neos\MCP\Domain\Model\ConnectionData;
 use SJS\Neos\MCP\Domain\Repository\ConnectionDataRepository;
 
 class UserConnectionController extends ActionController
 {
+    use FusionViewTrait;
+
     protected $defaultViewObjectName = FusionView::class;
 
     #[Flow\Inject]
@@ -24,13 +26,6 @@ class UserConnectionController extends ActionController
 
     #[Flow\Inject]
     protected PartyRepository $partyRepository;
-
-    public function initializeView(\Neos\Flow\Mvc\View\ViewInterface $view): void
-    {
-        if ($view instanceof FusionView) {
-            $view->setFusionPathPattern('resource://SJS.Neos.MCP/Private/Fusion/Module/UserConnection/Root.fusion');
-        }
-    }
 
     public function indexAction(): void
     {
@@ -60,6 +55,7 @@ class UserConnectionController extends ActionController
         $connection = new ConnectionData();
         $connection->setName($this->request->getArgument('name'));
         $connection->setToken(\bin2hex(\random_bytes(32)));
+        $connection->setSourceIdentifier('neos-backend');
 
         $currentUser = $this->userService->getCurrentUser();
         $accounts = $currentUser->getAccounts();

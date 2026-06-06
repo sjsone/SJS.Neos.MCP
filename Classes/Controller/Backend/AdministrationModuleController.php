@@ -12,8 +12,10 @@ use Neos\Party\Domain\Repository\PartyRepository;
 use SJS\Neos\MCP\Domain\Model\ConnectionData;
 use SJS\Neos\MCP\Domain\Repository\ConnectionDataRepository;
 
-class ConnectionModuleController extends ActionController
+class AdministrationModuleController extends ActionController
 {
+    use FusionViewTrait;
+
     protected $defaultViewObjectName = FusionView::class;
 
     #[Flow\Inject]
@@ -24,13 +26,6 @@ class ConnectionModuleController extends ActionController
 
     #[Flow\Inject]
     protected PartyRepository $partyRepository;
-
-    public function initializeView(\Neos\Flow\Mvc\View\ViewInterface $view): void
-    {
-        if ($view instanceof FusionView) {
-            $view->setFusionPathPattern('resource://SJS.Neos.MCP/Private/Fusion/Module/Root.fusion');
-        }
-    }
 
     public function indexAction(): void
     {

@@ -1,5 +1,5 @@
 
-SJS.Neos.MCP.Backend.ConnectionModuleController {
+SJS.Neos.MCP.Backend.AdministrationModuleController {
     index = SJS.Neos.MCP:Module.Connection.Action.Index
     new = SJS.Neos.MCP:Module.Connection.Action.New
     edit = SJS.Neos.MCP:Module.Connection.Action.Edit

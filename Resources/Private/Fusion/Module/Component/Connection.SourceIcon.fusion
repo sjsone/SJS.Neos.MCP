@@ -1,0 +1,15 @@
+prototype(SJS.Neos.MCP:Connection.SourceIcon) < prototype(Neos.Fusion:Match) {
+    @subject = ""
+
+    @default = Neos.Fusion:Tag {
+        tagName = 'span'
+        content = '🔌'
+    }
+
+    unknown = Neos.Fusion:Tag {
+        tagName = 'span'
+        content = 'unknown'
+        attributes.title = "unknown"
+        attributes.class.icon = "neos-label"
+    }
+}

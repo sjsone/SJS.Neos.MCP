@@ -1,0 +1,33 @@
+prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.DeleteModal) < prototype(Neos.Fusion:Component) {
+    connection = null
+
+    @private {
+        modalId = ${'delete-connection-' + props.connection.__identity}
+    }
+
+    renderer = afx`
+        <div class="neos-modal neos-hide" id={private.modalId}>
+            <div class="neos-modal-centered">
+                <div class="neos-modal-content">
+                    <div class="neos-modal-header">
+                        <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+                        <h3>Delete Connection</h3>
+                    </div>
+                    <div class="neos-modal-body">
+                        <p>Are you sure you want to delete the connection <strong>{props.connection.name}</strong>?</p>
+                        <p>Any AI tool using this token will lose access.</p>
+                    </div>
+                    <div class="neos-modal-footer">
+                        <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+                        <form method="post" style="display: inline;">
+                            <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{connection: props.connection}} />
+                            <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                            <button class="neos-button neos-button-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="neos-modal-backdrop"></div>
+        </div>
+    `
+}
