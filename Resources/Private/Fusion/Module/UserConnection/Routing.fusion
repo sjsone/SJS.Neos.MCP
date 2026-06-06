@@ -1,0 +1,6 @@
+
+SJS.Neos.MCP.Backend.UserConnectionController {
+    index = SJS.Neos.MCP:Module.UserConnection.Action.Index
+    new = SJS.Neos.MCP:Module.UserConnection.Action.New
+    edit = SJS.Neos.MCP:Module.UserConnection.Action.Edit
+}

@@ -1,0 +1,7 @@
+Neos:
+  Neos:
+    Ui:
+      resources:
+        javascript:
+          'SJS.Neos.MCP:UserMenu':
+            resource: 'resource://SJS.Neos.MCP/Public/JavaScript/UserMenuExtension.js'

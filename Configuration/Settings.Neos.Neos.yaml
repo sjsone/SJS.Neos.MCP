@@ -1,11 +1,23 @@
 Neos:
   Neos:
+    moduleConfiguration:
+      additionalResources:
+        javaScripts:
+          'SJS.Neos.MCP:UserMenuExtension': 'resource://SJS.Neos.MCP/Public/JavaScript/UserMenuExtension.js'
     modules:
       administration:
         submodules:
-          identityModule:
-            label: "Identities"
-            description: "MCP identity management"
+          connectionModule:
+            label: "Connections"
+            description: "MCP connection management"
             icon: "fa-magic-wand-sparkles"
-            controller: 'SJS\Neos\MCP\Controller\Backend\IdentityModuleController'
-            privilegeTarget: "SJS.Neos.MCP:IdentityModuleController.Base"
+            controller: 'SJS\Neos\MCP\Controller\Backend\ConnectionModuleController'
+            privilegeTarget: "SJS.Neos.MCP:ConnectionModuleController.Base"
+      user:
+        submodules:
+          connections:
+            label: "AI Connections"
+            description: "Manage your MCP connections"
+            icon: "fas fa-magic-wand-sparkles"
+            controller: 'SJS\Neos\MCP\Controller\Backend\UserConnectionController'
+            privilegeTarget: "SJS.Neos.MCP:UserConnectionModule"

@@ -6,16 +6,16 @@ namespace SJS\Neos\MCP\Domain\Repository;
 
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Persistence\Repository;
-use SJS\Neos\MCP\Domain\Model\IdentityData;
+use SJS\Neos\MCP\Domain\Model\ConnectionData;
 
 /**
  * @Flow\Scope("singleton")
- * @extends Repository<IdentityData>
+ * @extends Repository<ConnectionData>
  */
-class IdentityDataRepository extends Repository
+class ConnectionDataRepository extends Repository
 {
     /**
-     * @return \Neos\Flow\Persistence\QueryResultInterface<IdentityData>
+     * @return \Neos\Flow\Persistence\QueryResultInterface<ConnectionData>
      */
     public function findByParty(\Neos\Party\Domain\Model\AbstractParty $party): \Neos\Flow\Persistence\QueryResultInterface
     {
@@ -24,14 +24,14 @@ class IdentityDataRepository extends Repository
         return $query->execute();
     }
 
-    public function findOneByToken(string $token): ?IdentityData
+    public function findOneByToken(string $token): ?ConnectionData
     {
         $query = $this->createQuery();
         $query->matching($query->equals('token', $token));
         $result = $query->execute()->getFirst();
 
-        if ($result !== null && !($result instanceof IdentityData)) {
-            throw new \Exception("Query did not return null or IdentityData");
+        if ($result !== null && !($result instanceof ConnectionData)) {
+            throw new \Exception("Query did not return null or ConnectionData");
         }
         return $result;
     }

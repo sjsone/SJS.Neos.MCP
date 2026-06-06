@@ -1,8 +1,8 @@
 /**
- * Identity type definitions
+ * Connection type definitions
  */
 
-export interface Identity {
+export interface Connection {
     __identity: string;
     name: string;
     token: string;
@@ -16,17 +16,17 @@ export interface Identity {
     };
 }
 
-export interface IdentitiesByParty {
+export interface ConnectionsByParty {
     party: {
         name: string;
     };
-    identities: Identity[];
+    connections: Connection[];
 }
 
-export interface CreateIdentityData {
+export interface CreateConnectionData {
     name: string;
 }
 
-export interface UpdateIdentityData {
+export interface UpdateConnectionData {
     name: string;
 }

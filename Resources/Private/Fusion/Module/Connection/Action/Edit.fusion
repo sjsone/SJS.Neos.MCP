@@ -1,0 +1,37 @@
+prototype(SJS.Neos.MCP:Module.Connection.Action.Edit) < prototype(Neos.Fusion:Component) {
+
+    connection = ${connection}
+    accounts = ${accounts}
+    roles = ${roles}
+    allowedRoles = ${allowedRoles}
+
+    renderer = afx`
+        <div>
+            <h2>Edit Connection</h2>
+            <form id="edit-connection-form" method="post">
+                <Neos.Fusion:ActionUri @path="attributes.action" action="update" arguments={{connection: props.connection}} />
+                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                <div style="margin-bottom: 1em;">
+                    <label for="name">Name</label><br />
+                    <input type="text" id="name" name="moduleArguments[name]" value={props.connection.name} required="required" style="width: 300px;" />
+                </div>
+                <div style="margin-bottom: 1em;">
+                    <label for="token">Token</label><br />
+                    <input type="text" id="token" value={props.connection.token} readonly="readonly" style="width: 500px; font-family: monospace; font-size: 0.85em; opacity: 0.6;" />
+                </div>
+                <SJS.Neos.MCP:Module.Connection.Component.Form.Account.Selection
+                    accounts={props.accounts}
+                    connection={props.connection}
+                />
+            </form>
+        </div>
+
+        <div class="neos-footer">
+            <button type="submit" form="edit-connection-form" class="neos-button neos-button-primary">Save</button>
+            <a class="neos-button">
+                <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
+                Cancel
+            </a>
+        </div>
+    `
+}

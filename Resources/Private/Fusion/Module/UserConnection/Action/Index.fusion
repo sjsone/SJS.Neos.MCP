@@ -1,0 +1,135 @@
+prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index) < prototype(Neos.Fusion:Component) {
+
+    connections = ${connections}
+
+    @private {
+        hasConnections = ${Array.length(props.connections) > 0}
+    }
+
+    renderer = afx`
+        <div>
+            <table class="neos-table" style="width: 100%;" @if={private.hasConnections}>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Token</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Neos.Fusion:Loop items={props.connections} itemName="connection">
+                        <SJS.Neos.MCP:Module.UserConnection.Action.Index.Row connection={connection} />
+                    </Neos.Fusion:Loop>
+                </tbody>
+            </table>
+
+            <div @if={!private.hasConnections} style="text-align: center; padding: 4em 2em; color: #666;">
+                <div style="font-size: 3em; margin-bottom: 0.5em;">&#129668;</div>
+                <h2 style="margin-bottom: 0.5em;">Your AI Copilot Awaits</h2>
+                <p style="font-size: 1.1em; max-width: 500px; margin: 0 auto 1.5em; line-height: 1.6;">
+                    Create an AI Connection to let coding agents access your Neos content.
+                    You'll get a secure token that AI tools use to authenticate with the MCP server.
+                </p>
+                <div style="margin-bottom: 1.5em; font-size: 0.9em; color: #888; max-width: 450px; margin-left: auto; margin-right: auto; line-height: 1.8;">
+                    <strong>Quick setup:</strong><br/>
+                    1. Click <em>"Create Connection"</em> and give it a name<br/>
+                    2. Copy the token that appears<br/>
+                    3. Add it to your AI tool's MCP config<br/>
+                    4. Start asking your AI to manage content!
+                </div>
+            </div>
+
+            <Neos.Fusion:Loop items={props.connections} itemName="connection">
+                <SJS.Neos.MCP:Module.UserConnection.Action.Index.DeleteModal connection={connection} />
+            </Neos.Fusion:Loop>
+        </div>
+
+        <div class="neos-footer">
+            <div style="margin-bottom: 1em;">
+                <a class="neos-button neos-button-success">
+                    <Neos.Fusion:ActionUri @path="attributes.href" action="new" />
+                    Create Connection
+                </a>
+            </div>
+        </div>
+    `
+}
+
+prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.Fusion:Component) {
+    connection = null
+
+    @private {
+        editUri = Neos.Fusion:ActionUri {
+            action = "edit"
+            arguments = ${{connection: connection}}
+        }
+        modalId = ${'delete-connection-' + props.connection.__identity}
+    }
+
+    renderer = afx`
+        <tr>
+            <td>
+                <a style="color:#00b5ff;" href={private.editUri}>
+                    {props.connection.name}
+                </a>
+            </td>
+            <td>
+                <code style="font-family: monospace; font-size: 0.85em;">{String.substring(props.connection.token, 0, 12)}&hellip;</code>
+                <button
+                    type="button"
+                    class="neos-button neos-button-primary"
+                    style="margin-left: 0.5em;"
+                    onclick={"navigator.clipboard.writeText('"+props.connection.token+"')"}
+                >
+                    Copy
+                </button>
+            </td>
+            <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
+            <td class="neos-action">
+                <div class="neos-pull-right">
+                    <a class="neos-button" href={private.editUri}>
+                        Edit
+                    </a>
+                    <button class="neos-button neos-button-danger" data-toggle="modal" href={'#' + private.modalId}>
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `
+}
+
+prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.DeleteModal) < prototype(Neos.Fusion:Component) {
+    connection = null
+
+    @private {
+        modalId = ${'delete-connection-' + props.connection.__identity}
+    }
+
+    renderer = afx`
+        <div class="neos-modal neos-hide" id={private.modalId}>
+            <div class="neos-modal-centered">
+                <div class="neos-modal-content">
+                    <div class="neos-modal-header">
+                        <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+                        <h3>Delete Connection</h3>
+                    </div>
+                    <div class="neos-modal-body">
+                        <p>Are you sure you want to delete the connection <strong>{props.connection.name}</strong>?</p>
+                        <p>Any AI tool using this token will lose access.</p>
+                    </div>
+                    <div class="neos-modal-footer">
+                        <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+                        <form method="post" style="display: inline;">
+                            <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{connection: props.connection}} />
+                            <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                            <button class="neos-button neos-button-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="neos-modal-backdrop"></div>
+        </div>
+    `
+}

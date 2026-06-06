@@ -10,12 +10,12 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Security\Account;
 use Neos\Party\Domain\Model\AbstractParty;
 use Neos\Flow\Security\Policy\Role;
-use SJS\Flow\MCP\Domain\Identity\Identity;
+use SJS\Flow\MCP\Domain\Connection\Connection;
 
 /**
  * @Flow\Entity
  */
-class IdentityData
+class ConnectionData
 {
     /**
      * @ORM\ManyToOne
@@ -87,7 +87,7 @@ class IdentityData
 
     /**
      * @param array<string> $onlyAllowedRoleIdentifiers
-     * @return IdentityData
+     * @return ConnectionData
      */
     public function setOnlyAllowedRoleIdentifiers(array $onlyAllowedRoleIdentifiers): self
     {
@@ -128,7 +128,7 @@ class IdentityData
         return $this;
     }
 
-    public function createIdentity(): Identity
+    public function createConnection(): Connection
     {
         $account = $this->account;
         if ($account === null) {
@@ -136,10 +136,10 @@ class IdentityData
         }
 
         if (!($account instanceof Account)) {
-            throw new \InvalidArgumentException("Identity requires account to be of type Account");
+            throw new \InvalidArgumentException("Connection requires account to be of type Account");
         }
 
-        return Identity::create(
+        return Connection::create(
             connectionName: $this->name,
             account: $account,
             token: $this->token

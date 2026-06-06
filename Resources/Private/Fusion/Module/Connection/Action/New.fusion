@@ -1,27 +1,27 @@
-prototype(SJS.Neos.MCP:Module.Identity.Action.New) < prototype(Neos.Fusion:Component) {
+prototype(SJS.Neos.MCP:Module.Connection.Action.New) < prototype(Neos.Fusion:Component) {
 
     accounts = ${accounts}
     roles = ${roles}
 
     renderer = afx`
         <div>
-            <h2>Create Identity</h2>
-            <form id="new-identity-form" method="post">
+            <h2>Create Connection</h2>
+            <form id="new-connection-form" method="post">
                 <Neos.Fusion:ActionUri @path="attributes.action" action="create" />
                 <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
                 <div style="margin-bottom: 1em;">
                     <label for="name">Name</label><br />
                     <input type="text" id="name" name="moduleArguments[name]" required="required" style="width: 300px;" />
                 </div>
-                <SJS.Neos.MCP:Module.Identity.Component.Form.Account.Selection
+                <SJS.Neos.MCP:Module.Connection.Component.Form.Account.Selection
                     accounts={props.accounts}
-                    identity={props.identity}
+                    connection={props.connection}
                 />
             </form>
         </div>
 
         <div class="neos-footer">
-            <button type="submit" form="new-identity-form" class="neos-button neos-button-primary">Create</button>
+            <button type="submit" form="new-connection-form" class="neos-button neos-button-primary">Create</button>
             <a class="neos-button">
                 <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
                 Cancel
