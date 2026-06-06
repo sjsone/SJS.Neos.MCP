@@ -50,6 +50,12 @@ class ConnectionData
      */
     protected string $token = '';
 
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected string $sourceIdentifier = 'unknown';
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -128,6 +134,17 @@ class ConnectionData
         return $this;
     }
 
+    public function getSourceIdentifier(): string
+    {
+        return $this->sourceIdentifier;
+    }
+
+    public function setSourceIdentifier(string $sourceIdentifier): self
+    {
+        $this->sourceIdentifier = $sourceIdentifier;
+        return $this;
+    }
+
     public function createConnection(): Connection
     {
         $account = $this->account;
@@ -142,7 +159,8 @@ class ConnectionData
         return Connection::create(
             connectionName: $this->name,
             account: $account,
-            token: $this->token
+            token: $this->token,
+            sourceIdentifier: $this->sourceIdentifier
         );
     }
 }
