@@ -159,8 +159,7 @@ class ConnectionData
         return Connection::create(
             connectionName: $this->name,
             account: $account,
-            token: $this->token,
-            sourceIdentifier: $this->sourceIdentifier
+            token: $this->token
         );
     }
 }

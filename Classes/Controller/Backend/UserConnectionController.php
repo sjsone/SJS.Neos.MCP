@@ -38,7 +38,7 @@ class UserConnectionController extends ActionController
         $connections = [];
         foreach ($this->connectionDataRepository->findAll() as $connectionData) {
             $connectionAccount = $connectionData->getAccount();
-            if ($connectionAccount === null || !in_array($connectionAccount->getAccountIdentifier(), $currentAccountIdentifiers, true)) {
+            if ($connectionAccount === null || !\in_array($connectionAccount->getAccountIdentifier(), $currentAccountIdentifiers, true)) {
                 continue;
             }
             $connections[] = $connectionData;
@@ -59,13 +59,10 @@ class UserConnectionController extends ActionController
 
         $currentUser = $this->userService->getCurrentUser();
         $accounts = $currentUser->getAccounts();
-        if (count($accounts) > 0) {
+        if (\count($accounts) > 0) {
             $account = $accounts[0];
             $connection->setAccount($account);
-            $party = $this->partyRepository->findOneHavingAccount($account);
-            if ($party !== null) {
-                $connection->setParty($party);
-            }
+            $connection->setParty($currentUser);
         }
 
         $this->connectionDataRepository->add($connection);
