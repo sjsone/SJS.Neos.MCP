@@ -1,4 +1,4 @@
 
-SJS.Neos.MCP.Backend.McpController {
+SJS.Neos.MCP.Backend.BaseMcpModuleController {
     index = SJS.Neos.MCP:Module.Mcp.Action.Index
 }

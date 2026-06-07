@@ -1,11 +1,7 @@
-#                                                                        #
-# Security policy for the Neos Media package                             #
-#                                                                        #
-# TODO: create authProvider that creates token at runtime, copies roles from user account into new Account() but adds "no live publish role" to it as well.
 privilegeTargets:
   'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
-    "SJS.Neos.MCP:McpController":
-      matcher: 'method(SJS\Neos\MCP\Controller\Backend\McpController->(.*)Action(.*))'
+    "SJS.Neos.MCP:BaseMcpModuleController":
+      matcher: 'method(SJS\Neos\MCP\Controller\Backend\BaseMcpModuleController->(.*)Action(.*))'
     "SJS.Neos.MCP:AdministrationModuleController.Base":
       matcher: 'method(SJS\Neos\MCP\Controller\Backend\AdministrationModuleController->(index|new|create|edit|update|delete)Action(.*))'
     "SJS.Neos.MCP:UserConnectionModule":
@@ -14,7 +10,7 @@ privilegeTargets:
 roles:
   "Neos.Neos:AbstractEditor":
     privileges:
-      - privilegeTarget: "SJS.Neos.MCP:McpController"
+      - privilegeTarget: "SJS.Neos.MCP:BaseMcpModuleController"
         permission: GRANT
       - privilegeTarget: "SJS.Neos.MCP:AdministrationModuleController.Base"
         permission: GRANT

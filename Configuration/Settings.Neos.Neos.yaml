@@ -13,7 +13,7 @@ Neos:
       mcp:
         # label: "Neos.Neos:Modules:management.label"
         label: "MCP"
-        controller: 'SJS\Neos\MCP\Controller\Backend\McpController'
+        controller: 'SJS\Neos\MCP\Controller\Backend\BaseMcpModuleController'
         # description: "Neos.Neos:Modules:management.description"
         description: "Things"
         icon: fas fa-briefcase

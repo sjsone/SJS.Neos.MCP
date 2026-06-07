@@ -8,7 +8,7 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Fusion\View\FusionView;
 use Neos\Neos\Controller\Module\AbstractModuleController;
 
-class McpController extends AbstractModuleController
+class BaseMcpModuleController extends AbstractModuleController
 {
     use FusionViewTrait;
 
