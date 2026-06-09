@@ -8,16 +8,17 @@ prototype(SJS.Neos.MCP:Connection.SourceIcon) < prototype(Neos.Fusion:Match) {
 
     "neos-backend" = Neos.Fusion:Tag {
         tagName = 'span'
-        content = 'created in the Neos Backend'
-        attributes.title = "Neos"
-        attributes.class.label = "neos-label"
-        attributes.style = "background:#009fe3;"
+        content = ''
+        attributes.title = "Created in the Neos Backend"
+        attributes.class = "fa-solid fa-globe"
+        attributes.style = "color:#009fe3;"
     }
 
     unknown = Neos.Fusion:Tag {
         tagName = 'span'
-        content = 'unknown'
-        attributes.title = "unknown"
-        attributes.class.label = "neos-label"
+        content = ''
+        attributes.title = "Unknown source"
+        attributes.class = "fa-solid fa-question"
+        attributes.style = "color:#999;"
     }
 }
