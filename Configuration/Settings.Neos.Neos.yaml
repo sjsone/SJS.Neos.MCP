@@ -4,7 +4,7 @@ Neos:
       administration:
         submodules:
           administration:
-            label: "Connections Manager"
+            label: "MCP Connections Manager"
             description: "Administer all MCP Connections"
             icon: "fa-magic-wand-sparkles"
             controller: 'SJS\Neos\MCP\Controller\Backend\AdministrationModuleController'
