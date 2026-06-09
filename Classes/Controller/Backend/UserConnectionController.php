@@ -31,8 +31,10 @@ class UserConnectionController extends ActionController
     {
         $currentUser = $this->userService->getCurrentUser();
         $currentAccountIdentifiers = [];
-        foreach ($currentUser->getAccounts() as $account) {
-            $currentAccountIdentifiers[] = $account->getAccountIdentifier();
+        if ($currentUser !== null) {
+            foreach ($currentUser->getAccounts() as $account) {
+                $currentAccountIdentifiers[] = $account->getAccountIdentifier();
+            }
         }
 
         $connections = [];
@@ -58,11 +60,16 @@ class UserConnectionController extends ActionController
         $connection->setSourceIdentifier('neos-backend');
 
         $currentUser = $this->userService->getCurrentUser();
+        if ($currentUser === null) {
+            $this->addFlashMessage('Could not determine the current user.', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
+            $this->redirect('index');
+        }
+
+        $connection->setParty($currentUser);
+
         $accounts = $currentUser->getAccounts();
         if (\count($accounts) > 0) {
-            $account = $accounts[0];
-            $connection->setAccount($account);
-            $connection->setParty($currentUser);
+            $connection->setAccount($accounts[0]);
         }
 
         $this->connectionDataRepository->add($connection);

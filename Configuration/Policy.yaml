@@ -3,7 +3,7 @@ privilegeTargets:
     "SJS.Neos.MCP:BaseMcpModuleController":
       matcher: 'method(SJS\Neos\MCP\Controller\Backend\BaseMcpModuleController->(.*)Action(.*))'
     "SJS.Neos.MCP:AdministrationModuleController.Base":
-      matcher: 'method(SJS\Neos\MCP\Controller\Backend\AdministrationModuleController->(index|new|create|edit|update|delete)Action(.*))'
+      matcher: 'method(SJS\Neos\MCP\Controller\Backend\AdministrationModuleController->(index|party|new|create|edit|update|delete)Action(.*))'
     "SJS.Neos.MCP:UserConnectionModule":
       matcher: 'method(SJS\Neos\MCP\Controller\Backend\UserConnectionController->(index|new|create|edit|update|delete)Action(.*))'
 

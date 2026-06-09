@@ -7,36 +7,39 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.
             arguments = ${{connection: connection}}
         }
         modalId = ${'delete-connection-' + props.connection.__identity}
+        tokenPreview = ${String.substr(props.connection.token, 0, 12) + '...'}
     }
 
     renderer = afx`
         <tr>
-            <td>
+            <td style="width: 40px;">
                 <SJS.Neos.MCP:Connection.SourceIcon @subject={props.connection.sourceIdentifier} />
-                <span style="margin-right: 0.5em;"></span>
+            </td>
+            <td>
                 <a style="color:#00b5ff;" href={private.editUri}>
                     {props.connection.name}
                 </a>
             </td>
             <td>
-                <code style="font-family: monospace; font-size: 0.85em;">{String.substring(props.connection.token, 0, 12)}&hellip;</code>
+                <code title={props.connection.token}>{private.tokenPreview}</code>
                 <button
+                    title="Copy the token to the clipboard"
                     type="button"
                     class="neos-button neos-button-primary"
                     style="margin-left: 0.5em;"
                     onclick={"navigator.clipboard.writeText('"+props.connection.token+"')"}
                 >
-                    Copy
+                    <i class="fa-solid fa-copy"></i>
                 </button>
             </td>
             <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
             <td class="neos-action">
                 <div class="neos-pull-right">
-                    <a class="neos-button" href={private.editUri}>
-                        Edit
+                    <a class="neos-button" title="Edit" href={private.editUri}>
+                        <i class="fas fa-pencil icon-white"></i>
                     </a>
-                    <button class="neos-button neos-button-danger" data-toggle="modal" href={'#' + private.modalId}>
-                        Delete
+                    <button class="neos-button neos-button-danger" title="Delete" data-toggle="modal" href={'#' + private.modalId}>
+                        <i class="fas fa-trash icon-white"></i>
                     </button>
                 </div>
             </td>

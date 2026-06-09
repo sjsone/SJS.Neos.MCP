@@ -1,136 +1,57 @@
 prototype(SJS.Neos.MCP:Module.Connection.Action.Index) < prototype(Neos.Fusion:Component) {
 
-    connectionsByParty = ${connectionsByParty}
-
-    @private {
-        hasConnections = ${Array.length(props.connectionsByParty) > 0}
-    }
+    parties = ${parties}
 
     renderer = afx`
         <div>
-            <Neos.Fusion:Loop items={props.connectionsByParty} itemName="group" @if={private.hasConnections}>
-                <div style="margin-bottom: 2em;">
-                    <h3>{group.party.name}</h3>
-                    <table class="neos-table" style="width: 100%;">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Created</th>
-                                <th>Account</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <Neos.Fusion:Loop items={group.connections} itemName="connection">
-                                <SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow connection={connection} />
-                            </Neos.Fusion:Loop>
-                        </tbody>
-                    </table>
-                </div>
-            </Neos.Fusion:Loop>
+            <h2>MCP Connection Users</h2>
 
-            <div @if={!private.hasConnections} style="text-align: center; padding: 4em 2em; color: #666;">
-                <div style="font-size: 3em; margin-bottom: 0.5em;">&#128302;</div>
-                <h2 style="margin-bottom: 0.5em;">No AI Connections Yet</h2>
-                <p style="font-size: 1.1em; max-width: 500px; margin: 0 auto 1.5em; line-height: 1.6;">
-                    AI Connections let AI coding agents authenticate with the Neos MCP server.
-                    Each connection generates a token that AI tools like Claude Code use to
-                    interact with your content repository.
-                </p>
-                <div style="margin-bottom: 1em; font-size: 0.9em; color: #888;">
-                    <strong>Getting started:</strong>
-                    <ol style="display: inline-block; text-align: left; margin-top: 0.5em; line-height: 1.8;">
-                        <li>Create a connection with a descriptive name</li>
-                        <li>Copy the generated token</li>
-                        <li>Configure your AI tool with the token and MCP endpoint URL</li>
-                        <li>The AI will appear here as an authenticated connection</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-            <Neos.Fusion:Loop items={props.connectionsByParty} itemName="group">
-                <Neos.Fusion:Loop items={group.connections} itemName="connection">
-                    <SJS.Neos.MCP:Module.Connection.Action.Index.DeleteModal connection={connection} />
-                </Neos.Fusion:Loop>
-            </Neos.Fusion:Loop>
-        </div>
-
-        <div class="neos-footer">
-            <div style="margin-bottom: 1em;">
-                <a class="neos-button neos-button-success">
-                    <Neos.Fusion:ActionUri @path="attributes.href" action="new" />
-                    Create Connection
-                </a>
-            </div>
+            <table @if.hasParties={Array.length(props.parties) > 0} class="neos-table" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Party / User</th>
+                        <th>Connections</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <Neos.Fusion:Loop items={props.parties} itemName="entry">
+                        <SJS.Neos.MCP:Module.Connection.Action.Index.PartyRow entry={entry} />
+                    </Neos.Fusion:Loop>
+                </tbody>
+            </table>
+            <p @if.noParties={Array.length(props.parties) == 0}><em>No MCP connections have been created yet.</em></p>
         </div>
     `
 }
 
-prototype(SJS.Neos.MCP:Module.Connection.Action.Index.ConnectionRow) < prototype(Neos.Fusion:Component) {
-    connection = null
+prototype(SJS.Neos.MCP:Module.Connection.Action.Index.PartyRow) < prototype(Neos.Fusion:Component) {
+    entry = null
 
     @private {
-        editUri = Neos.Fusion:ActionUri {
-            action = "edit"
-            arguments = ${{connection: connection}}
+        partyUri = Neos.Fusion:ActionUri {
+            action = "party"
+            arguments = ${{party: entry.party}}
         }
-        modalId = ${'delete-' + props.connection.__identity}
     }
 
     renderer = afx`
         <tr>
             <td>
-                <a style="color:#00b5ff;" href={private.editUri}>
-                    {props.connection.name}
+                <a style="color:#00b5ff; font-weight: bold;" href={private.partyUri}>
+                    {props.entry.party.name}
                 </a>
             </td>
-            <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
-            <td>{props.connection.account.accountIdentifier} <span class="neos-label">{props.connection.account.authenticationProviderName}</span></td>
+            <td>
+                <span class="neos-label neos-label-info">{props.entry.connectionCount}</span>
+            </td>
             <td class="neos-action">
                 <div class="neos-pull-right">
-                    <a class="neos-button" href={private.editUri}>
-                        Edit
+                    <a class="neos-button neos-button-primary" href={private.partyUri}>
+                        <i class="fas fa-pencil icon-white"></i>
                     </a>
-                    <button class="neos-button neos-button-danger" data-toggle="modal" href={'#' + private.modalId}>
-                        Delete
-                    </button>
                 </div>
             </td>
         </tr>
-    `
-}
-
-prototype(SJS.Neos.MCP:Module.Connection.Action.Index.DeleteModal) < prototype(Neos.Fusion:Component) {
-    connection = null
-
-    @private {
-        modalId = ${'delete-' + props.connection.__identity}
-    }
-
-    renderer = afx`
-        <div class="neos-modal neos-hide" id={private.modalId}>
-            <div class="neos-modal-centered">
-                <div class="neos-modal-content">
-                    <div class="neos-modal-header">
-                        <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
-                        <h3>Delete Connection</h3>
-                    </div>
-                    <div class="neos-modal-body">
-                        <p>Are you sure you want to delete the connection <strong>{props.connection.name}</strong>?</p>
-                        <p>Any AI tool using this token will lose access.</p>
-                    </div>
-                    <div class="neos-modal-footer">
-                        <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
-                        <form method="post" style="display: inline;">
-                            <Neos.Fusion:ActionUri @path="attributes.action" action="delete" arguments={{connection: props.connection}} />
-                            <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
-                            <button class="neos-button neos-button-danger" type="submit">Delete</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="neos-modal-backdrop"></div>
-        </div>
     `
 }

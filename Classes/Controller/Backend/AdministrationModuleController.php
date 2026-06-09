@@ -8,7 +8,9 @@ use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Flow\Security\AccountRepository;
 use Neos\Fusion\View\FusionView;
+use Neos\Party\Domain\Model\AbstractParty;
 use Neos\Party\Domain\Repository\PartyRepository;
+use Neos\Flow\Persistence\PersistenceManagerInterface;
 use SJS\Neos\MCP\Domain\Model\ConnectionData;
 use SJS\Neos\MCP\Domain\Repository\ConnectionDataRepository;
 
@@ -27,26 +29,61 @@ class AdministrationModuleController extends ActionController
     #[Flow\Inject]
     protected PartyRepository $partyRepository;
 
+    #[Flow\Inject]
+    protected PersistenceManagerInterface $persistenceManager;
+
+    /**
+     * List all parties that have MCP connections, with summary counts.
+     */
     public function indexAction(): void
     {
-        $connectionsByParty = [];
+        $partyMap = [];
+        $seenPartyIds = [];
+
         foreach ($this->connectionDataRepository->findAll() as $connectionData) {
             $party = $connectionData->getParty();
-            $partyKey = \spl_object_hash($party);
-            if (!isset($connectionsByParty[$partyKey])) {
-                $connectionsByParty[$partyKey] = [
+            $partyId = $this->persistenceManager->getIdentifierByObject($party);
+
+            if (!isset($partyMap[$partyId])) {
+                $partyMap[$partyId] = [
                     'party' => $party,
-                    'connections' => [],
+                    'connectionCount' => 0,
                 ];
             }
-            $connectionsByParty[$partyKey]['connections'][] = $connectionData;
+            $partyMap[$partyId]['connectionCount']++;
         }
-        $this->view->assign('connectionsByParty', $connectionsByParty);
+
+        $this->view->assign('parties', \array_values($partyMap));
     }
 
-    public function newAction(): void
+    /**
+     * Show a single party's MCP connections.
+     */
+    public function partyAction(AbstractParty $party): void
     {
-        $this->view->assign('accounts', $this->accountRepository->findAll()->toArray());
+        $connections = [];
+        foreach ($this->connectionDataRepository->findAll() as $connectionData) {
+            if ($connectionData->getParty() === $party) {
+                $connections[] = $connectionData;
+            }
+        }
+
+        $this->view->assign('party', $party);
+        $this->view->assign('connections', $connections);
+    }
+
+    public function newAction(AbstractParty $party = null): void
+    {
+        // Only show accounts belonging to the selected party
+        $accounts = [];
+        if ($party !== null) {
+            foreach ($party->getAccounts() as $account) {
+                $accounts[] = $account;
+            }
+        }
+
+        $this->view->assign('party', $party);
+        $this->view->assign('accounts', $accounts);
     }
 
     public function createAction(): void
@@ -54,6 +91,12 @@ class AdministrationModuleController extends ActionController
         $connection = new ConnectionData();
         $connection->setName($this->request->getArgument('name'));
         $connection->setToken(\bin2hex(\random_bytes(32)));
+        $connection->setSourceIdentifier('neos-backend');
+
+        $party = $this->request->getArgument('party');
+        if ($party instanceof AbstractParty) {
+            $connection->setParty($party);
+        }
 
         $accountIdentifier = $this->request->getArgument('account');
         if (!empty($accountIdentifier)) {
@@ -66,33 +109,52 @@ class AdministrationModuleController extends ActionController
             }
             if ($account !== null) {
                 $connection->setAccount($account);
-                $party = $this->partyRepository->findOneHavingAccount($account);
-                if ($party !== null) {
-                    $connection->setParty($party);
+                if (!$party instanceof AbstractParty) {
+                    $party = $this->partyRepository->findOneHavingAccount($account);
+                    if ($party !== null) {
+                        $connection->setParty($party);
+                    }
                 }
             }
         }
 
         $this->connectionDataRepository->add($connection);
-        $this->redirect('index');
+
+        $redirectParty = $connection->getParty();
+        if ($redirectParty !== null) {
+            $this->redirect('party', null, null, ['party' => $redirectParty]);
+        } else {
+            $this->redirect('index');
+        }
     }
 
     public function editAction(ConnectionData $connection): void
     {
+        // Only show accounts belonging to the connection's party
+        $accounts = [];
+        $party = $connection->getParty();
+        foreach ($party->getAccounts() as $account) {
+            $accounts[] = $account;
+        }
+
         $this->view->assign('connection', $connection);
-        $this->view->assign('accounts', $this->accountRepository->findAll()->toArray());
+        $this->view->assign('accounts', $accounts);
     }
 
     public function updateAction(ConnectionData $connection): void
     {
         $connection->setName($this->request->getArgument('name'));
         $this->connectionDataRepository->update($connection);
-        $this->redirect('index');
+
+        $party = $connection->getParty();
+        $this->redirect('party', null, null, ['party' => $party]);
     }
 
     public function deleteAction(ConnectionData $connection): void
     {
+        $party = $connection->getParty();
         $this->connectionDataRepository->remove($connection);
-        $this->redirect('index');
+
+        $this->redirect('party', null, null, ['party' => $party]);
     }
 }

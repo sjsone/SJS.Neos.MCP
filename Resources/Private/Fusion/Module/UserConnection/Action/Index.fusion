@@ -2,15 +2,12 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index) < prototype(Neos.Fusi
 
     connections = ${connections}
 
-    @private {
-        hasConnections = ${Array.length(props.connections) > 0}
-    }
-
     renderer = afx`
         <div>
-            <table class="neos-table" style="width: 100%;" @if={private.hasConnections}>
+            <table @if.hasConnections={Array.length(props.connections) > 0} class="neos-table" style="width: 100%;">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Name</th>
                         <th>Token</th>
                         <th>Created</th>
@@ -24,7 +21,7 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index) < prototype(Neos.Fusi
                 </tbody>
             </table>
 
-            <div @if={!private.hasConnections} style="text-align: center; padding: 4em 2em; color: #666;">
+            <div @if.noConnections={Array.length(props.connections) == 0} style="text-align: center; padding: 4em 2em; color: #666;">
                 <div style="font-size: 3em; margin-bottom: 0.5em;">&#129668;</div>
                 <h2 style="margin-bottom: 0.5em;">Your AI Copilot Awaits</h2>
                 <p style="font-size: 1.1em; max-width: 500px; margin: 0 auto 1.5em; line-height: 1.6;">

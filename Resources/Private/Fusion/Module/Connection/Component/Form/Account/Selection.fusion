@@ -7,11 +7,20 @@ prototype(SJS.Neos.MCP:Module.Connection.Component.Form.Account.Selection) < pro
     moduleArgumentName = "account"
     inputName = ${"moduleArguments["+this.moduleArgumentName+"]"}
 
+    @private {
+        count = ${Array.length(props.accounts)}
+    }
+
     renderer = afx`
-        <div style="margin-bottom: 1em;">
+        <div @if.hasAccount={private.count > 0} style="margin-bottom: 1em;">
             <label for="account">Account</label><br />
-            <select id="account" name={props.inputName} style="width: 300px;">
-                <option value="">— none —</option>
+
+            <select
+                @if.multiple={private.count > 1}
+                id="account"
+                name={props.inputName}
+                style="width: 300px;"
+            >
                 <Neos.Fusion:Loop items={props.accounts} itemName="account">
                     <option
                         value={account.accountIdentifier}
@@ -21,6 +30,24 @@ prototype(SJS.Neos.MCP:Module.Connection.Component.Form.Account.Selection) < pro
                     </option>
                 </Neos.Fusion:Loop>
             </select>
+
+            <select
+                @if.single={private.count == 1}
+                id="account"
+                style="width: 300px;"
+                disabled="disabled"
+            >
+                <Neos.Fusion:Loop items={props.accounts} itemName="account">
+                    <option
+                        value={account.accountIdentifier}
+                        selected="selected"
+                    >
+                        {account.accountIdentifier} - {account.authenticationProviderName}
+                    </option>
+                </Neos.Fusion:Loop>
+            </select>
+
+            <input @if.single={private.count == 1} type="hidden" name={props.inputName} value={props.accounts[0].accountIdentifier} />
         </div>
     `
 }

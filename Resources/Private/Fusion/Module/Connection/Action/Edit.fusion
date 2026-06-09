@@ -2,8 +2,6 @@ prototype(SJS.Neos.MCP:Module.Connection.Action.Edit) < prototype(Neos.Fusion:Co
 
     connection = ${connection}
     accounts = ${accounts}
-    roles = ${roles}
-    allowedRoles = ${allowedRoles}
 
     renderer = afx`
         <div>
@@ -29,7 +27,7 @@ prototype(SJS.Neos.MCP:Module.Connection.Action.Edit) < prototype(Neos.Fusion:Co
         <div class="neos-footer">
             <button type="submit" form="edit-connection-form" class="neos-button neos-button-primary">Save</button>
             <a class="neos-button">
-                <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
+                <Neos.Fusion:ActionUri @path="attributes.href" action="party" arguments={{party: props.connection.party}} />
                 Cancel
             </a>
         </div>

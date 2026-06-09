@@ -1,14 +1,19 @@
 prototype(SJS.Neos.MCP:Module.Connection.Action.New) < prototype(Neos.Fusion:Component) {
 
     accounts = ${accounts}
-    roles = ${roles}
+    party = ${party}
 
     renderer = afx`
         <div>
             <h2>Create Connection</h2>
+
+            <p @if.hasParty={!!props.party}>For user: <strong>{props.party.name}</strong></p>
+
             <form id="new-connection-form" method="post">
                 <Neos.Fusion:ActionUri @path="attributes.action" action="create" />
                 <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                <input @if.hasParty={!!props.party} type="hidden" name="moduleArguments[party][__identity]" value={props.party.Persistence_Object_Identifier} />
+
                 <div style="margin-bottom: 1em;">
                     <label for="name">Name</label><br />
                     <input type="text" id="name" name="moduleArguments[name]" required="required" style="width: 300px;" />

@@ -1,0 +1,7 @@
+SJS:
+  Neos:
+    MCP:
+      PersistentConnectionProvider:
+        # Only tokens with these sourceIdentifier values are handled
+        allowedSourceIdentifiers:
+          - "neos-backend"

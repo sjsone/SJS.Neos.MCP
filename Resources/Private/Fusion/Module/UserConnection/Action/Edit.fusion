@@ -17,11 +17,12 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Edit) < prototype(Neos.Fusio
                     <div style="display: flex; align-items: center; gap: 0.5em;">
                         <input type="text" id="token" value={props.connection.token} readonly="readonly" style="width: 500px; font-family: monospace; font-size: 0.85em; opacity: 0.6;" />
                         <button
+                            title="Copy the token to the clipboard"
                             type="button"
                             class="neos-button neos-button-primary"
                             onclick={"navigator.clipboard.writeText('"+props.connection.token+"')"}
                         >
-                            Copy
+                            <i class="fa-solid fa-copy"></i>
                         </button>
                     </div>
                 </div>
