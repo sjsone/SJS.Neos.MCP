@@ -23,6 +23,12 @@ To get started fast install this FeatureSet:
 composer require sjs/neos-mcp sjs/neos-mcp-feature-set-agent
 ```
 
+Then run the migration
+
+```bash
+./flow doctrine:migrate
+```
+
 ## Configuration
 
 Server instances are defined in `Configuration/Settings.Server.yaml`:
