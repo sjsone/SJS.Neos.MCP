@@ -15,15 +15,13 @@ Core MCP (Model Context Protocol) server implementation for Neos CMS 9.x.
 
 ### Neos 9
 
-Install these Feature Sets:
+To get started fast install this FeatureSet:
 
-- **Neos** `composer require sjs/neos-mcp-feature-set-neos` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-neos)
-- **ContentRepository** `composer require sjs/neos-mcp-feature-set-cr` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-cr)
-- **Resources** `composer require sjs/neos-mcp-feature-set-resources` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-resources)
+**[SJS.Neos.MCP.FeatureSet.Agent](https://github.com/sjsone/SJS.Neos.MCP.FeatureSet.Agent)** — Agent knowledge, analysis, and scenario tools
 
-For Testing:
-
-- **Test** `composer require sjs/neos-mcp-feature-set-test` [📦 Packagist](https://packagist.org/packages/sjs/neos-mcp-feature-set-test)
+```bash
+composer require sjs/neos-mcp sjs/neos-mcp-feature-set-agent
+```
 
 ## Configuration
 
@@ -75,3 +73,8 @@ Launches the [MCP Inspector](https://github.com/modelcontextprotocol/inspector) 
 
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+
+### Related
+
+- **[SJS.Flow.MCP](https://github.com/sjsone/SJS.Flow.MCP)** — Flow framework MCP abstractions (server, tools, FeatureSets)
+- **[SJS.Neos.MCP.OAuth](https://github.com/sjsone/SJS.Neos.MCP.OAuth)** — OAuth 2.0 authentication for the MCP server
