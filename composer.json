@@ -6,7 +6,7 @@
     "require": {
         "neos/neos": "^8.0 || ^9.0",
         "guzzlehttp/guzzle": "^7.0",
-        "sjs/flow-mcp": "*"
+        "sjs/flow-mcp": "^1.0"
     },
     "autoload": {
         "psr-4": {
