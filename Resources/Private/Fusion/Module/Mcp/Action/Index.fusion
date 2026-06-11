@@ -1,6 +1,24 @@
 prototype(SJS.Neos.MCP:Module.Mcp.Action.Index) < prototype(Neos.Fusion:Component) {
 
+    servers = ${servers}
+    featureSets = ${featureSets}
+
     renderer = afx`
-    
+        <div class="neos-content neos-indented neos-fluid-container">
+            <div class="neos-row-fluid">
+                <div class="neos-span6">
+                    <SJS.Neos.MCP:Module.Component.Mcp.Widget icon="fas fa-puzzle-piece" title="Feature Sets">
+                        <ul>
+                            <Neos.Fusion:Loop items={props.featureSets} itemName="implementation" itemKey="key">
+                                <li>
+                                    <code>{key}</code>
+                                    <span style="color: #666; margin-left: 0.5em;">{implementation}</span>
+                                </li>
+                            </Neos.Fusion:Loop>
+                        </ul>
+                    </SJS.Neos.MCP:Module.Component.Mcp.Widget>
+                </div>
+            </div>
+        </div>
     `
 }

@@ -1,5 +1,7 @@
-prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.Fusion:Component) {
+prototype(SJS.Neos.MCP:Module.Component.Connection.Row) < prototype(Neos.Fusion:Component) {
     connection = null
+    showAccount = false
+    showCopy = false
 
     @private {
         editUri = Neos.Fusion:ActionUri {
@@ -13,7 +15,7 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.
     renderer = afx`
         <tr>
             <td style="width: 40px;">
-                <SJS.Neos.MCP:Connection.SourceIcon @subject={props.connection.sourceIdentifier} />
+                <SJS.Neos.MCP:Connection.SourceIcon @context.subject={props.connection.sourceIdentifier} />
             </td>
             <td>
                 <a style="color:#00b5ff;" href={private.editUri}>
@@ -22,7 +24,7 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.
             </td>
             <td>
                 <code title={props.connection.token}>{private.tokenPreview}</code>
-                <button
+                <button @if.showCopy={props.showCopy}
                     title="Copy the token to the clipboard"
                     type="button"
                     class="neos-button neos-button-primary"
@@ -33,6 +35,13 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.
                 </button>
             </td>
             <td>{Date.format(props.connection.createdAt, 'Y-m-d')}</td>
+            <td @if.showAccount={props.showAccount}>
+                <span @if.hasAccount={!!props.connection.account}>
+                    {props.connection.account.accountIdentifier}
+                    <span class="neos-label">{props.connection.account.authenticationProviderName}</span>
+                </span>
+                <em @if.noAccount={!props.connection.account}>none</em>
+            </td>
             <td class="neos-action">
                 <div class="neos-pull-right">
                     <a class="neos-button" title="Edit" href={private.editUri}>
@@ -44,5 +53,6 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index.Row) < prototype(Neos.
                 </div>
             </td>
         </tr>
+        <SJS.Neos.MCP:Module.Component.Connection.DeleteModal connection={props.connection} />
     `
 }

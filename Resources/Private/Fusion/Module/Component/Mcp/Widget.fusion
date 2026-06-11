@@ -1,0 +1,36 @@
+prototype(SJS.Neos.MCP:Module.Component.Mcp.Widget) < prototype(Neos.Fusion:Component) {
+    icon = ''
+    title = ''
+    labels = Neos.Fusion:DataStructure
+    footerLabel = ''
+    footerAction = ''
+    footerController = ''
+    footerPackage = ''
+    footerExternalUri = ''
+
+    @private {
+        hasFooter = ${!!props.footerLabel && (!!props.footerAction || !!props.footerExternalUri)}
+        hasLabels = ${Array.length(props.labels) > 0}
+    }
+
+    renderer = afx`
+        <div class={'widget' + (private.hasFooter ? ' has-footer' : '')}>
+            <div class="widget-header">
+                <i @if.hasIcon={!!props.icon} class={props.icon + ' neos-pull-left'}></i>
+                <h3>{props.title}</h3>
+            </div>
+            <div class="widget-body">
+                {props.content}
+            </div>
+            <div @if.hasFooter={private.hasFooter} class="widget-footer">
+                <a @if.action={!!props.footerAction} class="neos-button neos-button-primary">
+                    <Neos.Fusion:ActionUri @path="attributes.href" action={props.footerAction} controller={props.footerController} package={props.footerPackage} />
+                    {props.footerLabel}
+                </a>
+                <a @if.external={!!props.footerExternalUri} class="neos-button" href={props.footerExternalUri} target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt"></i> {props.footerLabel}
+                </a>
+            </div>
+        </div>
+    `
+}

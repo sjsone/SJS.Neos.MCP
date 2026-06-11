@@ -1,24 +1,6 @@
 prototype(SJS.Neos.MCP:Module.UserConnection.Action.New) < prototype(Neos.Fusion:Component) {
 
     renderer = afx`
-        <div>
-            <h2>Create Connection</h2>
-            <form id="new-user-connection-form" method="post">
-                <Neos.Fusion:ActionUri @path="attributes.action" action="create" />
-                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
-                <div style="margin-bottom: 1em;">
-                    <label for="name">Name</label><br />
-                    <input type="text" id="name" name="moduleArguments[name]" required="required" style="width: 300px;" />
-                </div>
-            </form>
-        </div>
-
-        <div class="neos-footer">
-            <button type="submit" form="new-user-connection-form" class="neos-button neos-button-primary">Create</button>
-            <a class="neos-button">
-                <Neos.Fusion:ActionUri @path="attributes.href" action="index" />
-                Cancel
-            </a>
-        </div>
+        <SJS.Neos.MCP:Module.Component.Connection.New />
     `
 }

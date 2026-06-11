@@ -16,7 +16,7 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index) < prototype(Neos.Fusi
                 </thead>
                 <tbody>
                     <Neos.Fusion:Loop items={props.connections} itemName="connection">
-                        <SJS.Neos.MCP:Module.UserConnection.Action.Index.Row connection={connection} />
+                        <SJS.Neos.MCP:Module.Component.Connection.Row connection={connection} showCopy={true} />
                     </Neos.Fusion:Loop>
                 </tbody>
             </table>
@@ -36,10 +36,6 @@ prototype(SJS.Neos.MCP:Module.UserConnection.Action.Index) < prototype(Neos.Fusi
                     4. Start asking your AI to manage content!
                 </div>
             </div>
-
-            <Neos.Fusion:Loop items={props.connections} itemName="connection">
-                <SJS.Neos.MCP:Module.UserConnection.Action.Index.DeleteModal connection={connection} />
-            </Neos.Fusion:Loop>
         </div>
 
         <div class="neos-footer">

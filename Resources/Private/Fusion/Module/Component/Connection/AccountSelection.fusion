@@ -1,4 +1,4 @@
-prototype(SJS.Neos.MCP:Module.Connection.Component.Form.Account.Selection) < prototype(Neos.Fusion:Component) {
+prototype(SJS.Neos.MCP:Module.Component.Connection.AccountSelection) < prototype(Neos.Fusion:Component) {
 
     /// array Of accounts
     accounts = null

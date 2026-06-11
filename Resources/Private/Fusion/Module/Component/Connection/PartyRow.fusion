@@ -1,0 +1,30 @@
+prototype(SJS.Neos.MCP:Module.Component.Connection.PartyRow) < prototype(Neos.Fusion:Component) {
+    entry = null
+
+    @private {
+        partyUri = Neos.Fusion:ActionUri {
+            action = "party"
+            arguments = ${{party: entry.party}}
+        }
+    }
+
+    renderer = afx`
+        <tr>
+            <td>
+                <a style="color:#00b5ff; font-weight: bold;" href={private.partyUri}>
+                    {props.entry.party.name}
+                </a>
+            </td>
+            <td>
+                <span class="neos-label neos-label-info">{props.entry.connectionCount}</span>
+            </td>
+            <td class="neos-action">
+                <div class="neos-pull-right">
+                    <a class="neos-button neos-button-primary" href={private.partyUri}>
+                        <i class="fas fa-pencil icon-white"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    `
+}

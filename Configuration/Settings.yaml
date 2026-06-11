@@ -1,6 +1,11 @@
 SJS:
   Neos:
     MCP:
+      modules:
+        view:
+          fusion:
+            pathPatterns:
+              moduleRoot: "resource://SJS.Neos.MCP/Private/Fusion/Module/Root.fusion"
       PersistentConnectionProvider:
         # Only tokens with these sourceIdentifier values are handled
         allowedSourceIdentifiers:

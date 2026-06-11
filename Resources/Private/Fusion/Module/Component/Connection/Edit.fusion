@@ -1,0 +1,48 @@
+prototype(SJS.Neos.MCP:Module.Component.Connection.Edit) < prototype(Neos.Fusion:Component) {
+    connection = null
+    accounts = null
+    showAccount = false
+    showCopy = false
+    cancelAction = 'index'
+    cancelArguments = Neos.Fusion:DataStructure
+
+    renderer = afx`
+        <div>
+            <h2>Edit Connection</h2>
+            <form id="edit-connection-form" method="post">
+                <Neos.Fusion:ActionUri @path="attributes.action" action="update" arguments={{connection: props.connection}} />
+                <input type="hidden" name="__csrfToken" value={Security.csrfToken()} />
+                <div style="margin-bottom: 1em;">
+                    <label for="name">Name</label><br />
+                    <input type="text" id="name" name="moduleArguments[name]" value={props.connection.name} required="required" style="width: 300px;" />
+                </div>
+                <div style="margin-bottom: 1em;">
+                    <label for="token">Token</label><br />
+                    <div style="display: flex; align-items: center; gap: 0.5em;">
+                        <input type="text" id="token" value={props.connection.token} readonly="readonly" style="width: 500px; font-family: monospace; font-size: 0.85em; opacity: 0.6;" />
+                        <button @if.showCopy={props.showCopy}
+                            title="Copy the token to the clipboard"
+                            type="button"
+                            class="neos-button neos-button-primary"
+                            onclick={"navigator.clipboard.writeText('"+props.connection.token+"')"}
+                        >
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <SJS.Neos.MCP:Module.Component.Connection.AccountSelection @if.showAccount={props.showAccount}
+                    accounts={props.accounts}
+                    connection={props.connection}
+                />
+            </form>
+        </div>
+
+        <div class="neos-footer">
+            <button type="submit" form="edit-connection-form" class="neos-button neos-button-primary">Save</button>
+            <a class="neos-button">
+                <Neos.Fusion:ActionUri @path="attributes.href" action={props.cancelAction} arguments={props.cancelArguments} />
+                Cancel
+            </a>
+        </div>
+    `
+}
