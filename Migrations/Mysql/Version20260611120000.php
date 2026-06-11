@@ -7,7 +7,6 @@ namespace Neos\Flow\Persistence\Doctrine\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-
 final class Version20260611120000 extends AbstractMigration
 {
     public function getDescription(): string
@@ -27,7 +26,10 @@ final class Version20260611120000 extends AbstractMigration
             $this->addSql('RENAME TABLE sjs_neos_mcp_domain_model_identitydata TO sjs_neos_mcp_domain_model_connectiondata');
         }
 
-        $this->addSql('ALTER TABLE sjs_neos_mcp_domain_model_connectiondata ADD sourceidentifier VARCHAR(255) DEFAULT \'unknown\' NOT NULL');
+        if (!$schema->getTable('sjs_neos_mcp_domain_model_connectiondata')->hasColumn('sourceidentifier')) {
+            $this->addSql('ALTER TABLE sjs_neos_mcp_domain_model_connectiondata ADD sourceidentifier VARCHAR(255) DEFAULT \'unknown\' NOT NULL');
+        }
+
         $this->addSql("UPDATE sjs_neos_mcp_domain_model_connectiondata SET sourceidentifier = 'neos-backend' WHERE sourceidentifier = 'unknown'");
     }
 
