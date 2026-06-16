@@ -30,7 +30,10 @@ class AdministrationModuleController extends ActionController
     protected PartyRepository $partyRepository;
 
     #[Flow\Inject]
-    protected PersistenceManagerInterface $persistenceManager;
+    /**
+     * @var PersistenceManagerInterface
+     */
+    protected $persistenceManager;
 
     /**
      * List all parties that have MCP connections, with summary counts.
